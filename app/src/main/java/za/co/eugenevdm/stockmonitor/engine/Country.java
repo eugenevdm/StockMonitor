@@ -19,8 +19,8 @@
 
 package za.co.eugenevdm.stockmonitor.engine;
 
-        import javax.swing.ImageIcon;
-        import za.co.eugenevdm.stockmonitor.engine.currency.Currency;
+//import javax.swing.ImageIcon;
+import za.co.eugenevdm.stockmonitor.engine.currency.Currency;
 
 /**
  *
@@ -57,14 +57,14 @@ public enum Country {
     Taiwan("/images/16x16/tw.png", "Taiwan", Currency.valueOf("TWD"), Currency.valueOf("TWD")),
     UnitedKingdom("/images/16x16/gb.png", "United Kingdom", Currency.valueOf("GBX"), Currency.valueOf("GBP")),
     UnitedState("/images/16x16/us.png", "United States", Currency.valueOf("USD"), Currency.valueOf("USD"));
-
+            
     Country(String fileName, String humanString, Currency stockCurrency, Currency localCurrency) {
-        this.icon = new javax.swing.ImageIcon(this.getClass().getResource(fileName));
+        //this.icon = new javax.swing.ImageIcon(this.getClass().getResource(fileName));
         this.humanString = humanString;
         this.stockCurrency = stockCurrency;
         this.localCurrency = localCurrency;
     }
-
+    
     // For legacy reason, when generating path or operation, the following code
     // should be used :
     // String path = country.name() + File.separator
@@ -79,9 +79,9 @@ public enum Country {
     //public String toString() {
     //    return string;
     //}
-
-    public final ImageIcon icon;
-    public final String humanString;
+    
+    //public final ImageIcon icon;
+    public final String humanString; 
     public final Currency stockCurrency;
     public final Currency localCurrency;
 }

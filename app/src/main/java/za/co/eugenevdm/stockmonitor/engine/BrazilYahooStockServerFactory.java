@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package org.yccheok.jstock.engine;
+package za.co.eugenevdm.stockmonitor.engine;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,7 +56,7 @@ public class BrazilYahooStockServerFactory implements StockServerFactory {
     }
 
     @Override
-    public StockHistoryServer getStockHistoryServer(Code code, org.yccheok.jstock.engine.Duration duration) {
+    public StockHistoryServer getStockHistoryServer(Code code, za.co.eugenevdm.stockmonitor.engine.Duration duration) {
         try {
             return new BrazilYahooStockHistoryServer(code, duration);
         } catch (StockHistoryNotFoundException exp) {

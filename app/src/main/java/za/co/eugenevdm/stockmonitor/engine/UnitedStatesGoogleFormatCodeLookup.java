@@ -19,7 +19,7 @@
 
 package za.co.eugenevdm.stockmonitor.engine;
 
-        import java.util.Map;
+import java.util.Map;
 
 /**
  *
@@ -27,14 +27,14 @@ package za.co.eugenevdm.stockmonitor.engine;
  */
 public enum UnitedStatesGoogleFormatCodeLookup {
     INSTANCE;
-
+    
     public String put(Code code, String googleFormatCode) {
         return map.put(code, googleFormatCode);
     }
-
+    
     public String get(Code code) {
         return map.get(code);
     }
-
+    
     private static final Map<Code, String> map = new java.util.concurrent.ConcurrentHashMap<Code, String>();
 }

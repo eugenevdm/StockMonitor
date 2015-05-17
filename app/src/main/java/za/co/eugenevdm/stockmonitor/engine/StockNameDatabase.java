@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package za.co.eugenevdm.stockmonitor.engine;
+package org.yccheok.jstock.engine;
 
 import java.util.HashMap;
 import java.util.List;

@@ -19,22 +19,22 @@
 
 package za.co.eugenevdm.stockmonitor.engine;
 
-        import au.com.bytecode.opencsv.CSVReader;
-        import com.google.gson.Gson;
-        import java.io.File;
-        import java.io.FileInputStream;
-        import java.io.IOException;
-        import java.io.InputStreamReader;
-        import java.io.UnsupportedEncodingException;
-        import java.net.URLDecoder;
-        import java.nio.charset.Charset;
-        import java.util.*;
-        import org.apache.commons.httpclient.*;
-        import org.apache.commons.logging.Log;
-        import org.apache.commons.logging.LogFactory;
-        import za.co.eugenevdm.stockmonitor.engine.Industry;
-        import za.co.eugenevdm.stockmonitor.file.Statements;
-        import za.co.eugenevdm.stockmonitor.gui.JStock;
+import au.com.bytecode.opencsv.CSVReader;
+import com.google.gson.Gson;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
+import java.util.*;
+import org.apache.commons.httpclient.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+//import za.co.eugenevdm.stockmonitor.engine.Industry;
+//import za.co.eugenevdm.stockmonitor.file.Statements;
+//import za.co.eugenevdm.stockmonitor.gui.JStock;
 
 /**
  *
@@ -119,34 +119,34 @@ public class Utils {
         return country;
     }
 
-    /**
-     * Generate the best online database result if possible so that it is
-     * acceptable by JStock application.
-     *
-     * @param result result from online database
-     * @return best result after rectified. null if result cannot be rectified
-     */
-    public static ResultType rectifyResult(ResultType result) {
-        String symbolStr = result.symbol;
-        String nameStr = result.name;
-        if (symbolStr == null) {
-            return null;
-        }
-        if (symbolStr.trim().isEmpty()) {
-            return null;
-        }
-        symbolStr = symbolStr.trim().toUpperCase();
-        if (nameStr == null) {
-            // If name is not available, we will make it same as symbol.
-            nameStr = symbolStr;
-        }
-        if (nameStr.trim().isEmpty()) {
-            // If name is not available, we will make it same as symbol.
-            nameStr = symbolStr;
-        }
-        nameStr = nameStr.trim();
-        return result.deriveWithSymbol(symbolStr).deriveWithName(nameStr);
-    }
+//    /**
+//     * Generate the best online database result if possible so that it is
+//     * acceptable by JStock application.
+//     *
+//     * @param result result from online database
+//     * @return best result after rectified. null if result cannot be rectified
+//     */
+//    public static ResultType rectifyResult(ResultType result) {
+//        String symbolStr = result.symbol;
+//        String nameStr = result.name;
+//        if (symbolStr == null) {
+//            return null;
+//        }
+//        if (symbolStr.trim().isEmpty()) {
+//            return null;
+//        }
+//        symbolStr = symbolStr.trim().toUpperCase();
+//        if (nameStr == null) {
+//            // If name is not available, we will make it same as symbol.
+//            nameStr = symbolStr;
+//        }
+//        if (nameStr.trim().isEmpty()) {
+//            // If name is not available, we will make it same as symbol.
+//            nameStr = symbolStr;
+//        }
+//        nameStr = nameStr.trim();
+//        return result.deriveWithSymbol(symbolStr).deriveWithName(nameStr);
+//    }
 
     /**
      * Initialize HttpClient with information from system properties.
@@ -222,22 +222,22 @@ public class Utils {
         return isValidPortNumber(port);
     }
 
-    public static File getStockInfoDatabaseFile(Country country) {
-        return new File(org.yccheok.jstock.gui.Utils.getUserDataDirectory() + country + File.separator + "database" + File.separator + "stock-info-database.csv");
-    }
+//    public static File getStockInfoDatabaseFile(Country country) {
+//        return new File(org.yccheok.jstock.gui.Utils.getUserDataDirectory() + country + File.separator + "database" + File.separator + "stock-info-database.csv");
+//    }
 
     /**
-     * Gets the CSV file, which will be used to construct
+     * Gets the CSV file, which will be used to construct 
      * {@code StockCodeAndSymbolDatabase} object.
      *
      * @param country The country of the stock market
      * @return Location of the stocks CSV file.
      */
-    public static String getStocksCSVZipFileLocation(Country country) {
-        // Must use lower case, as Google App Engine only support URL in lower
-        // case.
-        return org.yccheok.jstock.network.Utils.getJStockStaticServer() + "stocks_information/" + country.toString().toLowerCase() + "/" + "stocks.zip";
-    }
+//    public static String getStocksCSVZipFileLocation(Country country) {
+//        // Must use lower case, as Google App Engine only support URL in lower
+//        // case.
+//        return org.yccheok.jstock.network.Utils.getJStockStaticServer() + "stocks_information/" + country.toString().toLowerCase() + "/" + "stocks.zip";
+//    }
 
     /**
      * One of the shortcomings of JStock is that, it is very difficult to get a
@@ -248,146 +248,146 @@ public class Utils {
      * @param file The CSV file
      * @return List of stocks carried by the CSV file.
      */
-    public static List<Stock> getStocksFromCSVFile(File file) {
-        List<Stock> stocks = new ArrayList<Stock>();
-        FileInputStream fileInputStream = null;
-        InputStreamReader inputStreamReader = null;
-        CSVReader csvreader = null;
-        try {
-            fileInputStream = new FileInputStream(file);
-            inputStreamReader = new InputStreamReader(fileInputStream,  Charset.forName("UTF-8"));
-            csvreader = new CSVReader(inputStreamReader);
-            final String[] types = csvreader.readNext();
-            if (types == null) {
-                // Fail. Returns empty stock list.
-                return stocks;
-            }
-            int code_index = -1;
-            int symbol_index = -1;
-            // Name, board and industry information is optional.
-            int name_index = -1;
-            int board_index = -1;
-            int industry_index = -1;
+//    public static List<Stock> getStocksFromCSVFile(File file) {
+//        List<Stock> stocks = new ArrayList<Stock>();
+//        FileInputStream fileInputStream = null;
+//        InputStreamReader inputStreamReader = null;
+//        CSVReader csvreader = null;
+//        try {
+//            fileInputStream = new FileInputStream(file);
+//            inputStreamReader = new InputStreamReader(fileInputStream,  Charset.forName("UTF-8"));
+//            csvreader = new CSVReader(inputStreamReader);
+//            final String[] types = csvreader.readNext();
+//            if (types == null) {
+//                // Fail. Returns empty stock list.
+//                return stocks;
+//            }
+//            int code_index = -1;
+//            int symbol_index = -1;
+//            // Name, board and industry information is optional.
+//            int name_index = -1;
+//            int board_index = -1;
+//            int industry_index = -1;
+//
+//            boolean success_index = false;
+//            // Search for the indecies for code, symbol and name.
+//            for (int index = 0; index < types.length; index++) {
+//                final String type = types[index];
+//                if (0 == type.compareToIgnoreCase("code")) {
+//                    code_index = index;
+//                } else if (0 == type.compareToIgnoreCase("symbol")) {
+//                    symbol_index = index;
+//                } else if (0 == type.compareToIgnoreCase("name")) {
+//                    name_index = index;
+//                } else if (0 == type.compareToIgnoreCase("board")) {
+//                    board_index = index;
+//                } else if (0 == type.compareToIgnoreCase("industry")) {
+//                    industry_index = index;
+//                }
+//
+//                if (code_index != -1 && symbol_index != -1 && name_index != -1 && board_index != -1 && industry_index != -1) {
+//                    // All found. Early quit.
+//                    break;
+//                }
+//            }
+//
+//            // Ignore board_index, as it is optional.
+//            success_index = (code_index != -1 && symbol_index != -1);
+//
+//            // Are we having all the indecies?
+//            if (false == success_index) {
+//                // Nope. Returns empty stock list.
+//                return stocks;
+//            }
+//
+//            String [] nextLine;
+//            while ((nextLine = csvreader.readNext()) != null) {
+//                // Shall we continue to ignore, or shall we just return early to
+//                // flag an error?
+//                if (nextLine.length != types.length) {
+//                    // Give a warning message.
+//                    log.error("Incorrect CSV format. There should be exactly " + types.length + " item(s)");
+//                    continue;
+//                }
+//                final String code = nextLine[code_index];
+//                final String symbol = nextLine[symbol_index];
+//                final String name = name_index == -1 ? "" : nextLine[name_index];
+//                final String _board = board_index == -1 ? "Unknown" : nextLine[board_index];
+//                final String _industry = industry_index == -1 ? "Unknown" : nextLine[industry_index];
+//                Board board;
+//                Industry industry;
+//                try {
+//                    board = Board.valueOf(_board);
+//                } catch (IllegalArgumentException exp) {
+//                    log.error(null, exp);
+//                    board = Board.Unknown;
+//                }
+//                try {
+//                    industry = Industry.valueOf(_industry);
+//                } catch (IllegalArgumentException exp) {
+//                    log.error(null, exp);
+//                    industry = Industry.Unknown;
+//                }
+//
+//                final Stock stock = new Stock.Builder(Code.newInstance(code), Symbol.newInstance(symbol)).name(name).board(board).industry(industry).build();
+//                stocks.add(stock);
+//            }
+//        } catch (IOException ex) {
+//            log.error(null, ex);
+//        } finally {
+//            if (csvreader != null) {
+//                try {
+//                    csvreader.close();
+//                } catch (IOException ex) {
+//                    log.error(null, ex);
+//                }
+//            }
+//            org.yccheok.jstock.gui.Utils.close(inputStreamReader);
+//            org.yccheok.jstock.gui.Utils.close(fileInputStream);
+//        }
+//        return stocks;
+//    }
 
-            boolean success_index = false;
-            // Search for the indecies for code, symbol and name.
-            for (int index = 0; index < types.length; index++) {
-                final String type = types[index];
-                if (0 == type.compareToIgnoreCase("code")) {
-                    code_index = index;
-                } else if (0 == type.compareToIgnoreCase("symbol")) {
-                    symbol_index = index;
-                } else if (0 == type.compareToIgnoreCase("name")) {
-                    name_index = index;
-                } else if (0 == type.compareToIgnoreCase("board")) {
-                    board_index = index;
-                } else if (0 == type.compareToIgnoreCase("industry")) {
-                    industry_index = index;
-                }
+//    public static Pair<StockInfoDatabase, StockNameDatabase> toStockDatabase(List<Stock> stocks, Country country) {
+//        assert(false == stocks.isEmpty());
+//
+//        // Let's make our database since we get a list of good stocks.
+//        StockInfoDatabase tmp_stock_info_database = new StockInfoDatabase(stocks);
+//
+//        // StockNameDatabase is an optional item.
+//        StockNameDatabase tmp_name_database = null;
+//        if (org.yccheok.jstock.engine.Utils.isNameImmutable(country)) {
+//            tmp_name_database = new StockNameDatabase(stocks);
+//        }
+//
+//        return Pair.create(tmp_stock_info_database, tmp_name_database);
+//    }
 
-                if (code_index != -1 && symbol_index != -1 && name_index != -1 && board_index != -1 && industry_index != -1) {
-                    // All found. Early quit.
-                    break;
-                }
-            }
-
-            // Ignore board_index, as it is optional.
-            success_index = (code_index != -1 && symbol_index != -1);
-
-            // Are we having all the indecies?
-            if (false == success_index) {
-                // Nope. Returns empty stock list.
-                return stocks;
-            }
-
-            String [] nextLine;
-            while ((nextLine = csvreader.readNext()) != null) {
-                // Shall we continue to ignore, or shall we just return early to
-                // flag an error?
-                if (nextLine.length != types.length) {
-                    // Give a warning message.
-                    log.error("Incorrect CSV format. There should be exactly " + types.length + " item(s)");
-                    continue;
-                }
-                final String code = nextLine[code_index];
-                final String symbol = nextLine[symbol_index];
-                final String name = name_index == -1 ? "" : nextLine[name_index];
-                final String _board = board_index == -1 ? "Unknown" : nextLine[board_index];
-                final String _industry = industry_index == -1 ? "Unknown" : nextLine[industry_index];
-                Board board;
-                Industry industry;
-                try {
-                    board = Board.valueOf(_board);
-                } catch (IllegalArgumentException exp) {
-                    log.error(null, exp);
-                    board = Board.Unknown;
-                }
-                try {
-                    industry = Industry.valueOf(_industry);
-                } catch (IllegalArgumentException exp) {
-                    log.error(null, exp);
-                    industry = Industry.Unknown;
-                }
-
-                final Stock stock = new Stock.Builder(Code.newInstance(code), Symbol.newInstance(symbol)).name(name).board(board).industry(industry).build();
-                stocks.add(stock);
-            }
-        } catch (IOException ex) {
-            log.error(null, ex);
-        } finally {
-            if (csvreader != null) {
-                try {
-                    csvreader.close();
-                } catch (IOException ex) {
-                    log.error(null, ex);
-                }
-            }
-            org.yccheok.jstock.gui.Utils.close(inputStreamReader);
-            org.yccheok.jstock.gui.Utils.close(fileInputStream);
-        }
-        return stocks;
-    }
-
-    public static Pair<StockInfoDatabase, StockNameDatabase> toStockDatabase(List<Stock> stocks, Country country) {
-        assert(false == stocks.isEmpty());
-
-        // Let's make our database since we get a list of good stocks.
-        StockInfoDatabase tmp_stock_info_database = new StockInfoDatabase(stocks);
-
-        // StockNameDatabase is an optional item.
-        StockNameDatabase tmp_name_database = null;
-        if (org.yccheok.jstock.engine.Utils.isNameImmutable(country)) {
-            tmp_name_database = new StockNameDatabase(stocks);
-        }
-
-        return Pair.create(tmp_stock_info_database, tmp_name_database);
-    }
-
-    public static boolean migrateXMLToCSVDatabases(String srcBaseDirectory, String destBaseDirectory) {
-        boolean result = true;
-        for (Country country : Country.values()) {
-            final File userDefinedDatabaseXMLFile = new File(srcBaseDirectory + country + File.separator + "database" + File.separator + "user-defined-database.xml");
-            final File userDefinedDatabaseCSVFile = new File(destBaseDirectory + country + File.separator + "database" + File.separator + "user-defined-database.csv");
-
-            final java.util.List<Pair<Code, Symbol>> pairs = org.yccheok.jstock.gui.Utils.fromXML(java.util.List.class, userDefinedDatabaseXMLFile);
-            if (pairs != null && !pairs.isEmpty()) {
-                final Statements statements = Statements.newInstanceFromUserDefinedDatabase(pairs);
-                boolean r = statements.saveAsCSVFile(userDefinedDatabaseCSVFile);
-                if (r) {
-                    userDefinedDatabaseXMLFile.delete();
-                }
-                result = r & result;
-            } else {
-                userDefinedDatabaseXMLFile.delete();
-            }
-
-            // Delete these old XML files. We can re-generate new CSV from database.zip.
-            new File(srcBaseDirectory + country + File.separator + "database" + File.separator + "stock-name-database.xml").delete();
-            new File(destBaseDirectory + country + File.separator + "database" + File.separator + "stock-info-database.xml").delete();
-            new File(destBaseDirectory + country + File.separator + "database" + File.separator + "stockcodeandsymboldatabase.xml").delete();
-        }
-        return result;
-    }
+//    public static boolean migrateXMLToCSVDatabases(String srcBaseDirectory, String destBaseDirectory) {
+//        boolean result = true;
+//        for (Country country : Country.values()) {
+//            final File userDefinedDatabaseXMLFile = new File(srcBaseDirectory + country + File.separator + "database" + File.separator + "user-defined-database.xml");
+//            final File userDefinedDatabaseCSVFile = new File(destBaseDirectory + country + File.separator + "database" + File.separator + "user-defined-database.csv");
+//
+//            final java.util.List<Pair<Code, Symbol>> pairs = org.yccheok.jstock.gui.Utils.fromXML(java.util.List.class, userDefinedDatabaseXMLFile);
+//            if (pairs != null && !pairs.isEmpty()) {
+//                final Statements statements = Statements.newInstanceFromUserDefinedDatabase(pairs);
+//                boolean r = statements.saveAsCSVFile(userDefinedDatabaseCSVFile);
+//                if (r) {
+//                    userDefinedDatabaseXMLFile.delete();
+//                }
+//                result = r & result;
+//            } else {
+//                userDefinedDatabaseXMLFile.delete();
+//            }
+//
+//            // Delete these old XML files. We can re-generate new CSV from database.zip.
+//            new File(srcBaseDirectory + country + File.separator + "database" + File.separator + "stock-name-database.xml").delete();
+//            new File(destBaseDirectory + country + File.separator + "database" + File.separator + "stock-info-database.xml").delete();
+//            new File(destBaseDirectory + country + File.separator + "database" + File.separator + "stockcodeandsymboldatabase.xml").delete();
+//        }
+//        return result;
+//    }
 
     private static final Map<Country, List<Index>> country2Indices = new EnumMap<Country, List<Index>>(Country.class);
 
@@ -449,7 +449,7 @@ public class Utils {
 
             // Resolving Yahoo server down for India NSE stock market. Note, we
             // do not support Bombay stock market at this moment, due to the
-            // difficulty in converting "TATACHEM.BO" (Yahoo Finance) to
+            // difficulty in converting "TATACHEM.BO" (Yahoo Finance) to 
             // "BOM:500770" (Google Finance)
             string = string.substring(0, string_length - ".NS".length());
             String googleFormat = toGoogleFormatThroughAutoComplete(string, "NSE");
@@ -500,7 +500,7 @@ public class Utils {
             builder.append(java.net.URLEncoder.encode(code, "UTF-8"));
 
             final String location = builder.toString();
-            final String _respond = org.yccheok.jstock.gui.Utils.getResponseBodyAsStringBasedOnProxyAuthOption(location);
+            final String _respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOption(location);
             if (_respond == null) {
                 return null;
             }
@@ -548,28 +548,28 @@ public class Utils {
         return Code.newInstance(tmp.substring(0, endIndex));
     }
 
-    /**
-     * Returns best search engine based on current selected country.
-     *
-     * @return Best search engine based on current selected country.
-     */
-    public static boolean isPinyinTSTSearchEngineRequiredForSymbol() {
-        final Country country = JStock.instance().getJStockOptions().getCountry();
-        return (country == Country.China || country == Country.Taiwan);
-    }
+//    /**
+//     * Returns best search engine based on current selected country.
+//     *
+//     * @return Best search engine based on current selected country.
+//     */
+//    public static boolean isPinyinTSTSearchEngineRequiredForSymbol() {
+//        final Country country = JStock.instance().getJStockOptions().getCountry();
+//        return (country == Country.China || country == Country.Taiwan);
+//    }
 
-    /**
-     * Returns <code>true</code> if we should maintain the symbol as database's,
-     * even the symbol provided by stock server is different from our database.
-     * This happens when our symbol in database is Chinese, but the symbol
-     * returned by stock server is in English.
-     *
-     * @return <code>true</code> if we should maintain the symbol as database's.
-     */
-    public static boolean isSymbolImmutable() {
-        final Country country = JStock.instance().getJStockOptions().getCountry();
-        return (country == Country.China || country == Country.Taiwan);
-    }
+//    /**
+//     * Returns <code>true</code> if we should maintain the symbol as database's,
+//     * even the symbol provided by stock server is different from our database.
+//     * This happens when our symbol in database is Chinese, but the symbol
+//     * returned by stock server is in English.
+//     *
+//     * @return <code>true</code> if we should maintain the symbol as database's.
+//     */
+//    public static boolean isSymbolImmutable() {
+//        final Country country = JStock.instance().getJStockOptions().getCountry();
+//        return (country == Country.China || country == Country.Taiwan);
+//    }
 
     /**
      * Returns <code>true</code> if we should maintain the name as database's,
@@ -579,10 +579,10 @@ public class Utils {
      *
      * @return <code>true</code> if we should maintain the name as database's.
      */
-    public static boolean isNameImmutable() {
-        final Country country = JStock.instance().getJStockOptions().getCountry();
-        return isNameImmutable(country);
-    }
+//    public static boolean isNameImmutable() {
+//        final Country country = JStock.instance().getJStockOptions().getCountry();
+//        return isNameImmutable(country);
+//    }
 
     private static boolean isNameImmutable(Country country) {
         return (country == Country.China || country == Country.Taiwan);
@@ -595,10 +595,10 @@ public class Utils {
      * @return <code>true</code> if we need to use red color to indicate "rise
      * above". Green color to indicate "fall below".
      */
-    public static boolean isFallBelowAndRiseAboveColorReverse() {
-        final Country country = JStock.instance().getJStockOptions().getCountry();
-        return (country == Country.China || country == Country.Taiwan);
-    }
+//    public static boolean isFallBelowAndRiseAboveColorReverse() {
+//        final Country country = JStock.instance().getJStockOptions().getCountry();
+//        return (country == Country.China || country == Country.Taiwan);
+//    }
 
     public static List<Index> getStockIndices(Country country) {
         List<Index> indices = country2Indices.get(country);
@@ -715,7 +715,7 @@ public class Utils {
             return null;
         }
 
-        // Use toGoogleFormat, as it will handle case for RDS-B (Yahoo Finance)
+        // Use toGoogleFormat, as it will handle case for RDS-B (Yahoo Finance) 
         // & RDS.B (Google Finance)
         final String googleFormat = toGoogleFormat(code);
         if (googleFormat.contains(":")) {
@@ -738,7 +738,7 @@ public class Utils {
         }
 
         final String location = builder.toString();
-        final String _respond = org.yccheok.jstock.gui.Utils.getResponseBodyAsStringBasedOnProxyAuthOption(location);
+        final String _respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOption(location);
         if (_respond == null) {
             return null;
         }

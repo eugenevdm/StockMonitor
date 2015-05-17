@@ -16,13 +16,13 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
-
+ 
 package za.co.eugenevdm.stockmonitor.file;
 
-        import java.util.HashMap;
-        import java.util.Locale;
-        import java.util.Map;
-        import java.util.ResourceBundle;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -30,7 +30,7 @@ package za.co.eugenevdm.stockmonitor.file;
  */
 public class GUIBundleWrapper {
     public enum Language {
-        // INDEPENDENT must come first. This is important, especially when we
+        // INDEPENDENT must come first. This is important, especially when we 
         // want to loop through Language. The first member we want to access is
         // INDEPENDENT.
         //
@@ -43,16 +43,16 @@ public class GUIBundleWrapper {
         ITALIAN,
         DEFAULT,
     };
-
+    
     // So that we know which org.yccheok.jstock.data.gui language file we should
     // refer to.
     private final ResourceBundle guiBundleWrapper;
     private static volatile Map<String, String> map = null;
-
+    
     public static GUIBundleWrapper newInstance(Language language) {
         return new GUIBundleWrapper(language);
     }
-
+    
     private GUIBundleWrapper(Language type) {
         if (type == Language.INDEPENDENT) {
             guiBundleWrapper = null;
@@ -62,7 +62,7 @@ public class GUIBundleWrapper {
             guiBundleWrapper = ResourceBundle.getBundle("org.yccheok.jstock.data.gui", Locale.SIMPLIFIED_CHINESE);
         } else if (type == Language.GERMAN) {
             guiBundleWrapper = ResourceBundle.getBundle("org.yccheok.jstock.data.gui", Locale.GERMAN);
-        } else if (type == Language.TRADITIONAL_CHINESE) {
+        } else if (type == Language.TRADITIONAL_CHINESE) { 
             guiBundleWrapper = ResourceBundle.getBundle("org.yccheok.jstock.data.gui", Locale.TRADITIONAL_CHINESE);
         } else if (type == Language.ITALIAN) {
             guiBundleWrapper = ResourceBundle.getBundle("org.yccheok.jstock.data.gui", Locale.ITALIAN);
@@ -71,25 +71,25 @@ public class GUIBundleWrapper {
             guiBundleWrapper = ResourceBundle.getBundle("org.yccheok.jstock.data.gui");
         }
     }
-
+    
     public String getString(String key) {
         if (guiBundleWrapper == null) {
             return getLanguageIndependentString(key);
         }
         return guiBundleWrapper.getString(key);
     }
-
+    
     private static void initMap() {
         if (GUIBundleWrapper.map != null) {
             return;
         }
-
+        
         Map<String, String> _map = new HashMap<String, String>();
         _map.put("MainFrame_Stock", "Stock");
         _map.put("MainFrame_Code", "Code");
         _map.put("MainFrame_Symbol", "Symbol");
         _map.put("MainFrame_Prev", "Prev");
-        _map.put("MainFrame_Open", "Open");
+        _map.put("MainFrame_Open", "Open");        
         _map.put("MainFrame_Last", "Last");
         _map.put("MainFrame_High", "High");
         _map.put("MainFrame_Low", "Low");
@@ -103,30 +103,30 @@ public class GUIBundleWrapper {
         _map.put("MainFrame_SQty", "S.Qty");
         _map.put("MainFrame_FallBelow", "Fall Below");
         _map.put("MainFrame_RiseAbove", "Rise Above");
-
+        
         // For stock info.
         _map.put("MainFrame_Industry", "Industry");
         _map.put("MainFrame_Board", "Board");
         // For stock name.
         _map.put("MainFrame_Name", "Name");
-
-        _map.put("PortfolioManagementJPanel_Stock", "Stock");
+        
+        _map.put("PortfolioManagementJPanel_Stock", "Stock");      
         _map.put("PortfolioManagementJPanel_Date", "Date");
-        _map.put("PortfolioManagementJPanel_Units", "Units");
+        _map.put("PortfolioManagementJPanel_Units", "Units");    
         _map.put("PortfolioManagementJPanel_PurchasePrice", "Purchase Price");
         _map.put("PortfolioManagementJPanel_CurrentPrice", "Current Price");
         _map.put("PortfolioManagementJPanel_PurchaseValue", "Purchase Value");
-
+        
         // PortfolioManagementJPanel_PurchaseFee is obsolete. It is replaced by
         // PortfolioManagementJPanel_PurchaseBroker, PortfolioManagementJPanel_PurchaseClearingFee
         // and PortfolioManagementJPanel_PurchaseStampDuty. All works related to
-        // PortfolioManagementJPanel_PurchaseFee may be removed, after some
+        // PortfolioManagementJPanel_PurchaseFee may be removed, after some 
         // time.
         _map.put("PortfolioManagementJPanel_PurchaseFee", "Purchase Fee");
         _map.put("PortfolioManagementJPanel_PurchaseBroker", "Purchase Broker");
         _map.put("PortfolioManagementJPanel_PurchaseClearingFee", "Purchase Clearing Fee");
         _map.put("PortfolioManagementJPanel_PurchaseStampDuty", "Purchase Stamp Duty");
-
+        
         _map.put("PortfolioManagementJPanel_CurrentValue", "Current Value");
         _map.put("PortfolioManagementJPanel_GainLossPrice", "Gain/Loss Price");
         _map.put("PortfolioManagementJPanel_GainLossValue", "Gain/Loss Value");
@@ -138,29 +138,29 @@ public class GUIBundleWrapper {
         _map.put("PortfolioManagementJPanel_NetGainLossValue", "Net Gain/Loss Value");
         _map.put("PortfolioManagementJPanel_NetGainLossPercentage", "Net Gain/Loss %");
         _map.put("PortfolioManagementJPanel_Comment", "Comment");
-
+        
         _map.put("PortfolioManagementJPanel_ReferenceDate", "Purchase Date");
-        _map.put("PortfolioManagementJPanel_SellingPrice", "Selling Price");
-        _map.put("PortfolioManagementJPanel_SellingValue", "Selling Value");
+        _map.put("PortfolioManagementJPanel_SellingPrice", "Selling Price");        
+        _map.put("PortfolioManagementJPanel_SellingValue", "Selling Value");          
         _map.put("PortfolioManagementJPanel_NetSellingValue", "Net Selling Value");
-
+        
         _map.put("PortfolioManagementJPanel_Cash", "Cash");
-
+        
         _map.put("PortfolioManagementJPanel_Dividend", "Dividend");
-
-        _map.put("IndicatorScannerJPanel_Indicator", "Indicator");
+        
+        _map.put("IndicatorScannerJPanel_Indicator", "Indicator");                
         _map.put("IndicatorScannerJPanel_MCapital", "M.Capital");
         _map.put("IndicatorScannerJPanel_SIssued", "S.Issued");
 
-        _map.put("StockHistory_Date", "Date");
+        _map.put("StockHistory_Date", "Date");                
         _map.put("StockHistory_Open", "Open");
         _map.put("StockHistory_High", "High");
-        _map.put("StockHistory_Low", "Low");
+        _map.put("StockHistory_Low", "Low");                
         _map.put("StockHistory_Close", "Close");
         _map.put("StockHistory_Volume", "Volume");
-
+        
         // We need not to have WatchlistInfo_... and PortfolioInfo_... string
-        // in language files. As users from different localization will not save
+        // in language files. As users from different localization will not save 
         // those information explicitly. System will only save those info as
         // Language.INDEPENDENT.
         _map.put("WatchlistInfo_Country", "Country");
@@ -170,10 +170,10 @@ public class GUIBundleWrapper {
         _map.put("PortfolioInfo_Country", "Country");
         _map.put("PortfolioInfo_Name", "Portfolio Name");
         _map.put("PortfolioInfo_Size", "Size");
-
+        
         GUIBundleWrapper.map = _map;
     }
-
+    
     private static String getLanguageIndependentString(String key) {
         initMap();
         assert(GUIBundleWrapper.map.containsKey(key));

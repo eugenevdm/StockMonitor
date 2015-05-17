@@ -14,31 +14,31 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  * Copyright (C) 2008 Cheok YanCheng <yccheok@yahoo.com>
- *
+ * 
  * Modified by Yan Cheng for generic introduction and thread safe matchPrefix.
  * Original Author Wally Flint: wally@wallyflint.com
- * With thanks to Michael Amster of webeasy.com for introducing Wally Flint to
+ * With thanks to Michael Amster of webeasy.com for introducing Wally Flint to 
  * the Ternary Search Tree, and providing some starting code.
  */
 
 package za.co.eugenevdm.stockmonitor.engine;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
+/** 
  * Implementation of ternary search tree. A Ternary Search Tree is a data structure that behaves
  * in a manner that is very similar to a HashMap.
  */
 public class TernarySearchTree<E> {
     private TSTNode<E> rootNode;
     private int defaultNumReturnValues = -1;
-
-    /**
+	
+    /** 
      * Stores value in the TernarySearchTree. The value may be retrieved using key.
      * @param key A string that indexes the object to be stored.
      * @param value The object to be stored in the tree.
-     */
+     */    
     public void put(String key, E value) {
         getOrCreateNode(key).data = value;
     }
@@ -54,7 +54,7 @@ public class TernarySearchTree<E> {
         return node.data;
     }
 
-    /**
+    /** 
      * Removes value indexed by key. Also removes all nodes that are rendered unnecessary by the removal of this data.
      * @param key A string that indexes the object to be removed from the tree.
      */
@@ -75,12 +75,12 @@ public class TernarySearchTree<E> {
     public void setNumReturnValues(int num) {
         defaultNumReturnValues = (num < 0) ? -1 : num;
     }
-
+        
     private int checkNumberOfReturnValues(int numReturnValues) {
         return ((numReturnValues < 0) ? -1 : numReturnValues);
     }
 
-    /**
+    /** 
      * Returns the Node indexed by key, or null if that node doesn't exist. Search begins at root node.
      * @param key An index that points to the desired node.
      * @return TSTNode The node object indexed by key. This object is an instance of an inner class
@@ -90,7 +90,7 @@ public class TernarySearchTree<E> {
         return getNode(key, rootNode);
     }
 
-    /**
+    /** 
      * Returns the Node indexed by key, or null if that node doesn't exist. Search begins at root node.
      * @param key An index that points to the desired node.
      * @param startNode The top node defining the subtree to be searched.
@@ -101,18 +101,18 @@ public class TernarySearchTree<E> {
         if(key == null || startNode == null || key.length() == 0) return null;
         TSTNode<E> currentNode = startNode;
         int charIndex = 0;
-
+        
         while(true) {
             if (currentNode == null) return null;
             int charComp = compareCharsAlphabetically(key.charAt(charIndex), currentNode.splitchar);
-
+            
             if (charComp == 0) {
                 charIndex++;
                 if(charIndex == key.length()) return currentNode;
                 currentNode = currentNode.relatives[TSTNode.EQKID];
             } else if(charComp < 0) {
                 currentNode = currentNode.relatives[TSTNode.LOKID];
-            } else {
+            } else {                
                 // charComp must be greater than zero
                 currentNode = (TSTNode<E>)currentNode.relatives[TSTNode.HIKID];
             }
@@ -127,7 +127,7 @@ public class TernarySearchTree<E> {
         int sortKeysNumReturnValues = checkNumberOfReturnValues(numReturnValues);
         List<E> sortKeysResult = new ArrayList<E>();
         TSTNode<E> startNode = getNode(prefix);
-
+        
         if(startNode == null) return sortKeysResult;
         if(startNode.data != null) {
             sortKeysResult.add(startNode.data);
@@ -143,7 +143,7 @@ public class TernarySearchTree<E> {
         if(currentNode == null) return;
         sortKeysRecursion(sortKeysResult, currentNode.relatives[TSTNode.LOKID], sortKeysNumReturnValues);
         if(sortKeysNumReturnValues == 0) return;
-
+        
         if(currentNode.data != null) {
             sortKeysResult.add(currentNode.data);
             sortKeysNumReturnValues--;
@@ -160,7 +160,7 @@ public class TernarySearchTree<E> {
         return sortKeysResult;
     }
 
-    /**
+    /** 
      * Returns the Node indexed by key, creating that node if it doesn't exist, and creating any required.
      * intermediate nodes if they don't exist.
      * @param key A string that indexes the node that is returned.
@@ -171,7 +171,7 @@ public class TernarySearchTree<E> {
         if(key == null) throw new NullPointerException("attempt to get or create node with null key");
         if(key.length() == 0) throw new IllegalArgumentException("attempt to get or create node with key of zero length");
         if(rootNode == null) rootNode = new TSTNode<E>(key.charAt(0), null);
-
+        
         TSTNode<E> currentNode = rootNode;
         int charIndex = 0;
         while(true) {
@@ -181,11 +181,11 @@ public class TernarySearchTree<E> {
                 charIndex++;
                 if(charIndex == key.length()) return currentNode;
                 if(currentNode.relatives[TSTNode.EQKID] == null) currentNode.relatives[TSTNode.EQKID] = new TSTNode<E>(key.charAt(charIndex), currentNode);
-                currentNode = currentNode.relatives[TSTNode.EQKID];
+		currentNode = currentNode.relatives[TSTNode.EQKID];
             } else if(charComp < 0) {
                 if(currentNode.relatives[TSTNode.LOKID] == null) currentNode.relatives[TSTNode.LOKID] = new TSTNode<E>(key.charAt(charIndex), currentNode);
                 currentNode = currentNode.relatives[TSTNode.LOKID];
-            } else {
+            } else {                
                 // charComp must be greater than zero
                 if(currentNode.relatives[TSTNode.HIKID] == null) currentNode.relatives[TSTNode.HIKID] = new TSTNode<E>(key.charAt(charIndex), currentNode);
                 currentNode = currentNode.relatives[TSTNode.HIKID];
@@ -199,7 +199,7 @@ public class TernarySearchTree<E> {
     private void deleteNode(TSTNode<E> nodeToDelete) {
         if(nodeToDelete == null) return;
         nodeToDelete.data = null;
-
+        
         while(nodeToDelete != null) {
             nodeToDelete = deleteNodeRecursion(nodeToDelete);
         }
@@ -211,7 +211,7 @@ public class TernarySearchTree<E> {
         // and continue in this fashion until the node returned by this method is null.
         // The TSTNode instance returned by this method will be next node to be operated on by deleteNodeRecursion.
         // (This emulates recursive method call while avoiding the JVM overhead normally associated with a recursive method.)
-
+        
         if(currentNode == null) return null;
         if(currentNode.relatives[TSTNode.EQKID] != null || currentNode.data != null) return null;  // can't delete this node if it has a non-null eq kid or data
 
@@ -271,7 +271,7 @@ public class TernarySearchTree<E> {
         int deltaLo = currentNode.splitchar - currentNode.relatives[TSTNode.LOKID].splitchar;
         int movingKid;
         TSTNode<E> targetNode;
-
+        
         // if deltaHi is equal to deltaLo, then choose one of them at random, and make it "further away" from the current node's splitchar
         if(deltaHi == deltaLo) {
             if(Math.random() < 0.5) {
@@ -281,7 +281,7 @@ public class TernarySearchTree<E> {
             }
         }
 
-        if(deltaHi > deltaLo) {
+	if(deltaHi > deltaLo) {
             movingKid = TSTNode.HIKID;
             targetNode = currentNode.relatives[TSTNode.LOKID];
         } else {
@@ -290,7 +290,7 @@ public class TernarySearchTree<E> {
         }
 
         while(targetNode.relatives[movingKid] != null) targetNode = targetNode.relatives[movingKid];
-
+               
         // now targetNode.relatives[movingKid] is null, and we can put the moving kid into it.
         targetNode.relatives[movingKid] = currentNode.relatives[movingKid];
 
@@ -305,7 +305,7 @@ public class TernarySearchTree<E> {
         return currentParent;
     }
 
-    /**
+    /** 
      * An inner class of TernarySearchTree that represents a node in the tree.
      */
     private static final class TSTNode<E> {
@@ -315,13 +315,13 @@ public class TernarySearchTree<E> {
         @SuppressWarnings("unchecked")
         protected TSTNode<E>[] relatives = new TSTNode[4];
         protected E data;
-
+		
         protected TSTNode(char splitchar, TSTNode<E> parent) {
             this.splitchar = splitchar;
             relatives[PARENT] = parent;
         }
     }
-
+       
     private static int compareCharsAlphabetically(char cCompare, char cRef) {
         return (alphabetizeChar(cCompare) - alphabetizeChar(cRef));
     }
@@ -331,7 +331,7 @@ public class TernarySearchTree<E> {
         if(c < 89) return (2 * c) - 65;
         if(c < 97) return c + 24;
         if(c < 121) return (2 * c) - 128;
-
+        
         return c;
     }
 }

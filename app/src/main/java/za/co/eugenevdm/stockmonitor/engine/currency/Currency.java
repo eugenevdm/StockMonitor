@@ -19,7 +19,7 @@
 
 package za.co.eugenevdm.stockmonitor.engine.currency;
 
-        import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -41,7 +41,7 @@ public class Currency implements Comparable<Currency> {
             // currency symbol GBP for pounds sterling.
             return valueOf(currency);
         }
-
+        
         // Possible throw java.lang.IllegalArgumentException
         java.util.Currency c = java.util.Currency.getInstance(currency);
         assert(c != null);

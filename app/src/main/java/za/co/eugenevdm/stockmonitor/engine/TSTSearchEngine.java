@@ -19,10 +19,10 @@
 
 package za.co.eugenevdm.stockmonitor.engine;
 
-        import java.util.ArrayList;
-        import java.util.HashMap;
-        import java.util.List;
-        import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class is used to suggest a list of items, which will be similar to a
@@ -30,11 +30,11 @@ package za.co.eugenevdm.stockmonitor.engine;
  * to hold the complete list of E items. The searching mechanism is case insensitive.
  */
 public class TSTSearchEngine<E> implements SearchEngine<E> {
-
+    
     /**
      * Initializes a newly created {@code TSTSearchEngine} with a given list of
      * elements.
-     *
+     * 
      * @param sources List of elements used to fill up {@code TSTSearchEngine}
      */
     public TSTSearchEngine(List<E> sources) {
@@ -48,11 +48,11 @@ public class TSTSearchEngine<E> implements SearchEngine<E> {
      */
     public TSTSearchEngine() {
     }
-
+    
     /**
      * Returns a list of elements, which will be similar to a given string prefix.
      * The searching mechanism is case insensitive.
-     *
+     * 
      * @param prefix String prefix to match against elements
      * @return A list of elements, which will be similar to a given string prefix.
      * Returns empty list if no match found.
@@ -89,7 +89,7 @@ public class TSTSearchEngine<E> implements SearchEngine<E> {
         }
         return null;
     }
-
+    
     /**
      * Insert an element into this search engine.
      * @param value Element to be inserted
@@ -109,27 +109,27 @@ public class TSTSearchEngine<E> implements SearchEngine<E> {
             list.add(value);
         }
     }
-
+    
     /**
      * Removes an element from this search engine.
      * @param value Element to be removed
      */
     public void remove(E value) {
         final String mapKey = value.toString().toUpperCase();
-
+        
         List<E> list = map.get(mapKey);
         if (list == null) {
             return;
         }
-
+        
         list.remove(value);
-
+        
         if (list.isEmpty()) {
             tst.remove(mapKey);
             map.remove(mapKey);
         }
     }
-
+    
     private final TernarySearchTree<String> tst = new TernarySearchTree<String>();
     // We need to have this map, so that we are able to retrieve E value
     // in a case insensitive way. This is just a pseudo way for us to

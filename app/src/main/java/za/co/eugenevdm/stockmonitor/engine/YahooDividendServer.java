@@ -63,7 +63,7 @@ public class YahooDividendServer implements DividendServer {
         String respond = null;
         
         for (int retry = 0; retry < NUM_OF_RETRY; retry++) {
-            respond = za.co.eugenevdm.stockmonitor.gui.Utils.getResponseBodyAsStringBasedOnProxyAuthOption(location);
+            respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOption(location);
             if (respond != null) {
                 break;
             }

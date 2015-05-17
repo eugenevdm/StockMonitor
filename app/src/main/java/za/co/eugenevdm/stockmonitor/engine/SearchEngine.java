@@ -19,7 +19,7 @@
 
 package za.co.eugenevdm.stockmonitor.engine;
 
-        import java.util.List;
+import java.util.List;
 
 /**
  * This class is used to suggest a list of items, which will be similar to a

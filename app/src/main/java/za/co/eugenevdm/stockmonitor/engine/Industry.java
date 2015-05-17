@@ -19,7 +19,7 @@
 
 package za.co.eugenevdm.stockmonitor.engine;
 
-        import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -31,18 +31,18 @@ public class Industry implements Comparable<Industry> {
 
         this.industry = industry;
     }
-
+    
     public static Industry valueOf(String industry) {
         if (industry == null) {
             throw new java.lang.IllegalArgumentException("industry cannot be null");
         }
-
+        
         industry = industry.trim();
-
+        
         if (industry.isEmpty()) {
             throw new java.lang.IllegalArgumentException("industry cannot be empty");
         }
-
+        
         Industry result = map.get(industry);
         if (result == null) {
             final Industry instance = new Industry(industry);
@@ -51,24 +51,24 @@ public class Industry implements Comparable<Industry> {
                 result = instance;
             }
         }
-
+        
         assert(result != null);
         return result;
     }
-
+    
     @Override
     public int hashCode() {
         int result = 17;
         result = 31 * result + industry.hashCode();
-
+        
         return result;
     }
-
+    
     @Override
     public int compareTo(Industry o) {
         return this.industry.compareTo(o.industry);
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (o == this) {
@@ -78,24 +78,24 @@ public class Industry implements Comparable<Industry> {
         if (!(o instanceof Industry)) {
             return false;
         }
-
+        
         return this.industry.equals(((Industry)o).industry);
     }
-
+    
     @Override
     public String toString() {
         return industry;
     }
-
+    
     public String name() {
         return industry;
     }
-
+    
     private final String industry;
-
+    
     // Avoid using interface. We want it to be fast!
     private static final ConcurrentHashMap<String, Industry> map = new ConcurrentHashMap<>();
-
+    
     // Common used industry.
     public static final Industry Unknown = Industry.valueOf("Unknown");
     public static final Industry UserDefined = Industry.valueOf("UserDefined");

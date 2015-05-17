@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.yccheok.jstock.engine.currency.Currency;
+import za.co.eugenevdm.stockmonitor.engine.currency.Currency;
 
 /**
  *
@@ -60,7 +60,7 @@ public class YahooStockFormat implements StockFormat {
         
         // Ensure we have a correct "now" value.
         if (now == 0) {
-            long localNow = za.co.eugenevdm.stockmonitor.gui.Utils.getGoogleServerTimestamp();
+            long localNow =  za.co.eugenevdm.stockmonitor.gui.Utils2.getGoogleServerTimestamp();
             if (localNow != 0) {
                 now = localNow;
             } else {
@@ -324,7 +324,7 @@ public class YahooStockFormat implements StockFormat {
                 if (
                     fields[28].equalsIgnoreCase("N/A") &&
                     fields[26].equalsIgnoreCase("N/A") &&
-                    org.yccheok.jstock.portfolio.Utils.essentiallyEqual(lastPrice, 0.0) &&
+                    za.co.eugenevdm.stockmonitor.portfolio.Utils.essentiallyEqual(lastPrice, 0.0) &&
                     fields[24].equalsIgnoreCase("N/A") &&
                     fields[22].equalsIgnoreCase("N/A") &&
                     fields[20].equalsIgnoreCase("N/A") &&

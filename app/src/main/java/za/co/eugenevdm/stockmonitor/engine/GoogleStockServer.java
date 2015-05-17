@@ -19,19 +19,19 @@
 
 package za.co.eugenevdm.stockmonitor.engine;
 
-import com.google.gson.Gson;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import za.co.eugenevdm.stockmonitor.engine.currency.Currency;
+        import com.google.gson.Gson;
+        import java.io.UnsupportedEncodingException;
+        import java.util.ArrayList;
+        import java.util.Collections;
+        import java.util.Comparator;
+        import java.util.HashMap;
+        import java.util.HashSet;
+        import java.util.List;
+        import java.util.Map;
+        import java.util.Set;
+        import org.apache.commons.logging.Log;
+        import org.apache.commons.logging.LogFactory;
+        import za.co.eugenevdm.stockmonitor.engine.currency.Currency;
 
 /**
  *
@@ -118,7 +118,7 @@ public class GoogleStockServer implements StockServer {
 
         Map<String, Code> originalCodes = new HashMap<String, Code>();
 
-        // Use StringBuilder instead of StringBuffer. We do not concern on 
+        // Use StringBuilder instead of StringBuffer. We do not concern on
         // thread safety.
         final StringBuilder builder = new StringBuilder("https://www.google.com/finance/info?infotype=infoquoteall&q=");
         try {
@@ -138,7 +138,7 @@ public class GoogleStockServer implements StockServer {
             }
 
             final String location = builder.toString();
-            final String _respond = za.co.eugenevdm.stockmonitor.engine.Utils.getResponseBodyAsStringBasedOnProxyAuthOption(location);
+            final String _respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOption(location);
             if (_respond == null) {
                 throw new StockNotFoundException();
             }
@@ -155,7 +155,7 @@ public class GoogleStockServer implements StockServer {
             Set<Code> currCodes = new HashSet<Code>();
 
             // Let's say London stock exchange & OTCMKTS stock exchange both
-            // contains LON:ENVS and OTCMKTS:ENVS respectively. Making query 
+            // contains LON:ENVS and OTCMKTS:ENVS respectively. Making query
             // using "ENVS" will return LON:ENVS. In such case, we need to
             // perform some special treaty.
             List<Stock> specialUSStocks = new ArrayList<Stock>();
@@ -192,7 +192,7 @@ public class GoogleStockServer implements StockServer {
 
             for (Code code : codes) {
                 if (false == currCodes.contains(code)) {
-                    stocks.add(org.yccheok.jstock.engine.Utils.getEmptyStock(code, Symbol.newInstance(code.toString())));
+                    stocks.add(za.co.eugenevdm.stockmonitor.engine.Utils.getEmptyStock(code, Symbol.newInstance(code.toString())));
                 }
             }
 
@@ -217,7 +217,7 @@ public class GoogleStockServer implements StockServer {
 
         Map<String, Code> originalCodes = new HashMap<String, Code>();
 
-        // Use StringBuilder instead of StringBuffer. We do not concern on 
+        // Use StringBuilder instead of StringBuffer. We do not concern on
         // thread safety.
         final StringBuilder builder = new StringBuilder("https://www.google.com/finance/info?infotype=infoquoteall&q=");
         try {
@@ -260,7 +260,7 @@ public class GoogleStockServer implements StockServer {
             }
 
             final String location = builder.toString();
-            final String _respond = org.yccheok.jstock.gui.Utils.getResponseBodyAsStringBasedOnProxyAuthOption(location);
+            final String _respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOption(location);
             if (_respond == null) {
                 return java.util.Collections.emptyList();
             }
@@ -338,7 +338,7 @@ public class GoogleStockServer implements StockServer {
             if (false == Utils.isGoogleUnitedStatesStockExchange(exchange)) {
                 return Pair.create(Utils.getEmptyStock(code, Symbol.newInstance(code.toString())), false);
             } else {
-                // code and ticker might be different. For example, 
+                // code and ticker might be different. For example,
                 //
                 // code   = RDS-B (Yahoo! Format)
                 // ticker = RDS.B (Google Format)
@@ -389,7 +389,7 @@ public class GoogleStockServer implements StockServer {
         // No buy price information for Google Finance.
         // No buy volume information for Google Finance.
         // No sell price information for Google Finance.
-        // No sell volume information for Google Finance.                    
+        // No sell volume information for Google Finance.
         final Stock stock = new Stock.Builder(code, Symbol.newInstance(name))
                 .name(name)
                 .changePrice(c)

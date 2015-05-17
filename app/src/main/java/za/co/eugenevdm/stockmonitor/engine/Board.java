@@ -19,7 +19,7 @@
 
 package za.co.eugenevdm.stockmonitor.engine;
 
-        import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -28,21 +28,21 @@ package za.co.eugenevdm.stockmonitor.engine;
 public class Board implements Comparable<Board> {
     private Board(String board) {
         assert(board != null);
-
+        
         this.board = board;
     }
-
+    
     public static Board valueOf(String board) {
         if (board == null) {
             throw new java.lang.IllegalArgumentException("board cannot be null");
         }
-
+        
         board = board.trim();
-
+        
         if (board.isEmpty()) {
             throw new java.lang.IllegalArgumentException("board cannot be empty");
         }
-
+        
         Board result = map.get(board);
         if (result == null) {
             final Board instance = new Board(board);
@@ -51,24 +51,24 @@ public class Board implements Comparable<Board> {
                 result = instance;
             }
         }
-
+        
         assert(result != null);
         return result;
     }
-
+    
     @Override
     public int hashCode() {
         int result = 17;
         result = 31 * result + board.hashCode();
-
+        
         return result;
     }
-
+    
     @Override
     public int compareTo(Board o) {
         return this.board.compareTo(o.board);
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (o == this) {
@@ -78,24 +78,24 @@ public class Board implements Comparable<Board> {
         if (!(o instanceof Board)) {
             return false;
         }
-
+        
         return this.board.equals(((Board)o).board);
     }
-
+    
     @Override
     public String toString() {
         return board;
     }
-
+    
     public String name() {
         return board;
     }
-
+    
     private final String board;
-
+    
     // Avoid using interface. We want it to be fast!
     private static final ConcurrentHashMap<String, Board> map = new ConcurrentHashMap<>();
-
+    
     // Common used board.
     public static final Board Unknown = Board.valueOf("Unknown");
     public static final Board UserDefined = Board.valueOf("UserDefined");

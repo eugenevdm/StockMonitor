@@ -108,7 +108,7 @@ public abstract class AbstractYahooStockServer implements StockServer {
             boolean success = false;
 
             for (int retry = 0; retry < NUM_OF_RETRY; retry++) {
-                final String respond = za.co.eugenevdm.stockmonitor.gui.Utils.getResponseBodyAsStringBasedOnProxyAuthOption(location);
+                final String respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOption(location);
             
                 if (respond == null) {
                     continue;
@@ -199,7 +199,7 @@ public abstract class AbstractYahooStockServer implements StockServer {
         final String location = stringBuilder.toString();
 
         for (int retry = 0; retry < NUM_OF_RETRY; retry++) {
-            final String respond = za.co.eugenevdm.stockmonitor.gui.Utils.getResponseBodyAsStringBasedOnProxyAuthOption(location);
+            final String respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOption(location);
             if (respond == null) {
                 continue;
             }
@@ -263,7 +263,7 @@ public abstract class AbstractYahooStockServer implements StockServer {
         final String location = stringBuilder.toString();
 
         for (int retry = 0; retry < NUM_OF_RETRY; retry++) {
-            final String respond = za.co.eugenevdm.stockmonitor.gui.Utils.getResponseBodyAsStringBasedOnProxyAuthOption(location);
+            final String respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOption(location);
             if (respond == null) {
                 continue;
             }

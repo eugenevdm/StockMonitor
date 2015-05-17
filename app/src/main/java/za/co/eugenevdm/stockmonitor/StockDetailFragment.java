@@ -55,6 +55,8 @@ public class StockDetailFragment extends Fragment {
         // Show the dummy name as text in a TextView.
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.stock_detail)).setText(mItem.name);
+            // Obtain latest quote from Google Finance
+            ((TextView) rootView.findViewById(R.id.stock_price)).setText(mItem.ticker);
         }
 
         return rootView;

@@ -17,7 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package org.yccheok.jstock.engine;
+package za.co.eugenevdm.stockmonitor.engine;
 
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
@@ -197,7 +197,7 @@ public class KLSEInfoStockHistoryServer implements StockHistoryServer {
         boolean success = false;
 
         for (int retry = 0; retry < NUM_OF_RETRY; retry++) {
-            final String respond = org.yccheok.jstock.gui.Utils.getResponseBodyAsStringBasedOnProxyAuthOptionWithAgentInfo(location);
+            final String respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOptionWithAgentInfo(location);
 
             if (respond == null) {
                 continue;

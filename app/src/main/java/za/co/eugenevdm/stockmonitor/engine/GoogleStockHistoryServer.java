@@ -109,7 +109,7 @@ public class GoogleStockHistoryServer implements StockHistoryServer {
         boolean success = false;
         
         for (int retry = 0; retry < NUM_OF_RETRY; retry++) {
-            final String respond = za.co.eugenevdm.stockmonitor.gui.Utils.getResponseBodyAsStringBasedOnProxyAuthOption(location);
+            final String respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOption(location);
 
             if (respond == null) {
                 continue;
