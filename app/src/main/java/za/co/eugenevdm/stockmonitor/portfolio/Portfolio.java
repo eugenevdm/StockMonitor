@@ -22,7 +22,7 @@ package za.co.eugenevdm.stockmonitor.portfolio;
 import org.jdesktop.swingx.treetable.TreeTableModel;
 import za.co.eugenevdm.stockmonitor.engine.Code;
 import za.co.eugenevdm.stockmonitor.engine.currency.Currency;
-import org.yccheok.jstock.gui.treetable.DefaultSortableMutableTreeTableNode;
+import za.co.eugenevdm.stockmonitor.gui.treetable.DefaultSortableMutableTreeTableNode;
 
 /**
  *

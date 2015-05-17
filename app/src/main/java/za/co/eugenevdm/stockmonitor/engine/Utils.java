@@ -33,8 +33,8 @@ package za.co.eugenevdm.stockmonitor.engine;
         import org.apache.commons.logging.Log;
         import org.apache.commons.logging.LogFactory;
         import za.co.eugenevdm.stockmonitor.engine.Industry;
-        import org.yccheok.jstock.file.Statements;
-        import org.yccheok.jstock.gui.JStock;
+        import za.co.eugenevdm.stockmonitor.file.Statements;
+        import za.co.eugenevdm.stockmonitor.gui.JStock;
 
 /**
  *

@@ -17,12 +17,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package org.yccheok.jstock.portfolio;
+package za.co.eugenevdm.stockmonitor.portfolio;
 
 import org.jdesktop.swingx.treetable.TreeTableModel;
-import org.yccheok.jstock.engine.*;
-import org.yccheok.jstock.gui.treetable.DefaultSortableMutableTreeTableNode;
-import org.yccheok.jstock.portfolio.Contract.Type;
+import za.co.eugenevdm.stockmonitor.engine.*;
+import za.co.eugenevdm.stockmonitor.gui.treetable.DefaultSortableMutableTreeTableNode;
+import za.co.eugenevdm.stockmonitor.portfolio.Contract.Type;
 
 /**
  *
