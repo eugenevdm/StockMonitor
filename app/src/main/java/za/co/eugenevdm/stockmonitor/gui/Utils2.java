@@ -33,13 +33,13 @@ package za.co.eugenevdm.stockmonitor.gui;
 //import com.google.gson.reflect.TypeToken;
 //import com.thoughtworks.xstream.XStream;
 //
-//import net.sourceforge.pinyin4j.PinyinHelper;
-//import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
-//import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
-//import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
-//import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
-//import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
-//
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -52,7 +52,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.params.HttpMethodParams;
-//import org.apache.commons.lang.CharUtils;
+import org.apache.commons.lang.CharUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 //import org.jdesktop.jxlayer.JXLayer;
@@ -88,50 +88,50 @@ import za.co.eugenevdm.stockmonitor.network.Utils.Type;
 ////import java.awt.image.PixelGrabber;
 //import java.beans.PropertyChangeEvent;
 //import java.beans.PropertyChangeListener;
-//import java.io.BufferedInputStream;
-//import java.io.BufferedReader;
-//import java.io.BufferedWriter;
-//import java.io.Closeable;
-//import java.io.File;
-//import java.io.FileInputStream;
-//import java.io.FileOutputStream;
-//import java.io.FileReader;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-//import java.io.LineNumberReader;
-//import java.io.OutputStream;
-//import java.io.OutputStreamWriter;
-//import java.io.Reader;
+import java.io.LineNumberReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-//import java.io.Writer;
-//import java.net.MalformedURLException;
-//import java.net.URISyntaxException;
-//import java.net.URL;
-//import java.nio.charset.Charset;
-//import java.text.DateFormat;
-//import java.text.DecimalFormat;
-//import java.text.MessageFormat;
-//import java.text.SimpleDateFormat;
-//import java.util.ArrayList;
-//import java.util.Arrays;
-//import java.util.Calendar;
-//import java.util.Date;
-//import java.util.EnumMap;
-//import java.util.Enumeration;
-//import java.util.HashMap;
-//import java.util.List;
+import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.EnumMap;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
-//import java.util.Map;
+import java.util.Map;
 import java.util.Properties;
-//import java.util.concurrent.Executor;
-//import java.util.concurrent.Executors;
-//import java.util.regex.Matcher;
-//import java.util.regex.Pattern;
-//import java.util.zip.ZipEntry;
-//import java.util.zip.ZipInputStream;
-//import java.util.zip.ZipOutputStream;
-//
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
+
 ////import javax.sound.sampled.AudioInputStream;
 ////import javax.sound.sampled.AudioSystem;
 ////import javax.sound.sampled.Clip;
@@ -479,7 +479,8 @@ public class Utils2 {
             return null;
         }
         finally {
-            close(inputStreamAndMethod.inputStream);
+            // TODO Commented out
+            //close(inputStreamAndMethod.inputStream);
             inputStreamAndMethod.method.releaseConnection();
         }
         final String _id = properties.getProperty("id");
@@ -489,7 +490,7 @@ public class Utils2 {
         }
 
         final String id = za.co.eugenevdm.stockmonitor.gui.Utils2.decrypt(_id);
-        if (id.equals(za.co.eugenevdm.stockmonitor.gui.Utils.getJStockUUID()) == false) {
+        if (id.equals(za.co.eugenevdm.stockmonitor.gui.Utils2.getJStockUUID()) == false) {
             log.info("UUID doesn't match");
             return null;
         }
@@ -950,21 +951,21 @@ public class Utils2 {
             return "";
         }
 
-//        org.jasypt.encryption.pbe.PBEStringEncryptor pbeStringEncryptor = new org.jasypt.encryption.pbe.StandardPBEStringEncryptor();
-//        pbeStringEncryptor.setPassword(getJStockUUID());
-//        try {
-//            return pbeStringEncryptor.decrypt(source);
-//        } catch (org.jasypt.exceptions.EncryptionOperationNotPossibleException exp) {
-//            log.error(null, exp);
-//        }
-//
-//        return "";
-//    }
-//
-//    public static String getJStockUUID() {
-//        return "fe78440e-e0fe-4efb-881d-264a01be483c";
-//    }
-//
+        org.jasypt.encryption.pbe.PBEStringEncryptor pbeStringEncryptor = new org.jasypt.encryption.pbe.StandardPBEStringEncryptor();
+        pbeStringEncryptor.setPassword(getJStockUUID());
+        try {
+            return pbeStringEncryptor.decrypt(source);
+        } catch (org.jasypt.exceptions.EncryptionOperationNotPossibleException exp) {
+            log.error(null, exp);
+        }
+
+        return "";
+    }
+
+    public static String getJStockUUID() {
+        return "fe78440e-e0fe-4efb-881d-264a01be483c";
+    }
+
 //    // Returns application name, used by Google Doc service.
 //    private static String getCloudApplicationName() {
 //        return "JStock-" + CLOUD_FILE_VERSION_ID;
@@ -2385,85 +2386,85 @@ public class Utils2 {
 //        return null;
 //    }
 //
-//    /**
-//     * Returns list of Han Yu Pin Yin's prefix of every characters. If the
-//     * character is an alphabet or numerical, the original character will be
-//     * used. If there is any error occur during conversion, that particular
-//     * character will be ignored.
-//     *
-//     * @param chinese String to be converted
-//     * @return List of Han Yu Pin Yin's prefix of every characters.
-//     */
-//    public static List<String> toHanyuPinyin(String chinese) {
-//        // Is this an empty string?
-//        if (chinese.isEmpty()) {
-//            return new ArrayList<String>();
-//        }
-//
-//        // Use StringBuilder instead of String during processing for speed
-//        // optimization.
-//        List<StringBuilder> stringBuilders = null;
-//
-//        for (int i = 0, length = chinese.length(); i < length; i++) {
-//            final char c = chinese.charAt(i);
-//
-//            String[] pinyins = null;
-//            final java.util.Set<Character> set = new java.util.HashSet<Character>();
-//            // Is this Chinese character?
-//            if (CharUtils.isAscii(c)) {
-//                if (CharUtils.isAsciiAlphanumeric(c)) {
-//                    // We are only interested in 'abc' and '123'.
-//                    set.add(c);
-//                }
-//            } else {
-//                // This is possible a Chinese character.
-//                try {
-//                    pinyins = PinyinHelper.toHanyuPinyinStringArray(c, DEFAULT_HANYU_PINYIN_OUTPUT_FORMAT);
-//                    if (pinyins != null) {
-//                        for (String pinyin : pinyins) {
-//                            set.add(pinyin.charAt(0));
-//                        }
-//                    }
-//                } catch (BadHanyuPinyinOutputFormatCombination ex) {
-//                    log.error(null, ex);
-//                    // No. This is not Chinese character.
-//                    // Just ignore the error. Continue for the rest of characters.
-//                    // return new ArrayList<String>();
-//                }
-//            }
-//            final List<StringBuilder> tmps = stringBuilders;
-//            stringBuilders = new ArrayList<StringBuilder>();
-//
-//            if (tmps == null) {
-//                // This will be the first converted character.
-//                for (Character character : set) {
-//                    final StringBuilder me = new StringBuilder();
-//                    me.append(character);
-//                    stringBuilders.add(me);
-//                }
-//            } else {
-//                for (Character character : set) {
-//                    for (StringBuilder tmp : tmps) {
-//                        final StringBuilder me = new StringBuilder();
-//                        me.append(tmp);
-//                        me.append(character);
-//                        stringBuilders.add(me);
-//                    }
-//                }
-//            }
-//        }
-//
-//        List<String> result = new ArrayList<String>();
-//        // Do we have any converted characters?
-//        if (stringBuilders != null) {
-//            for (StringBuilder stringBuilder : stringBuilders) {
-//                result.add(stringBuilder.toString());
-//            }
-//        }
-//
-//        return result;
-//    }
-//
+    /**
+     * Returns list of Han Yu Pin Yin's prefix of every characters. If the
+     * character is an alphabet or numerical, the original character will be
+     * used. If there is any error occur during conversion, that particular
+     * character will be ignored.
+     *
+     * @param chinese String to be converted
+     * @return List of Han Yu Pin Yin's prefix of every characters.
+     */
+    public static List<String> toHanyuPinyin(String chinese) {
+        // Is this an empty string?
+        if (chinese.isEmpty()) {
+            return new ArrayList<String>();
+        }
+
+        // Use StringBuilder instead of String during processing for speed
+        // optimization.
+        List<StringBuilder> stringBuilders = null;
+
+        for (int i = 0, length = chinese.length(); i < length; i++) {
+            final char c = chinese.charAt(i);
+
+            String[] pinyins = null;
+            final java.util.Set<Character> set = new java.util.HashSet<Character>();
+            // Is this Chinese character?
+            if (CharUtils.isAscii(c)) {
+                if (CharUtils.isAsciiAlphanumeric(c)) {
+                    // We are only interested in 'abc' and '123'.
+                    set.add(c);
+                }
+            } else {
+                // This is possible a Chinese character.
+                try {
+                    pinyins = PinyinHelper.toHanyuPinyinStringArray(c, DEFAULT_HANYU_PINYIN_OUTPUT_FORMAT);
+                    if (pinyins != null) {
+                        for (String pinyin : pinyins) {
+                            set.add(pinyin.charAt(0));
+                        }
+                    }
+                } catch (BadHanyuPinyinOutputFormatCombination ex) {
+                    log.error(null, ex);
+                    // No. This is not Chinese character.
+                    // Just ignore the error. Continue for the rest of characters.
+                    // return new ArrayList<String>();
+                }
+            }
+            final List<StringBuilder> tmps = stringBuilders;
+            stringBuilders = new ArrayList<StringBuilder>();
+
+            if (tmps == null) {
+                // This will be the first converted character.
+                for (Character character : set) {
+                    final StringBuilder me = new StringBuilder();
+                    me.append(character);
+                    stringBuilders.add(me);
+                }
+            } else {
+                for (Character character : set) {
+                    for (StringBuilder tmp : tmps) {
+                        final StringBuilder me = new StringBuilder();
+                        me.append(tmp);
+                        me.append(character);
+                        stringBuilders.add(me);
+                    }
+                }
+            }
+        }
+
+        List<String> result = new ArrayList<String>();
+        // Do we have any converted characters?
+        if (stringBuilders != null) {
+            for (StringBuilder stringBuilder : stringBuilders) {
+                result.add(stringBuilder.toString());
+            }
+        }
+
+        return result;
+    }
+
 //    /**
 //     * Returns default currency symbol, regardless what country we are in right
 //     * now.
@@ -2700,16 +2701,16 @@ public class Utils2 {
 //            return DateFormat.getDateInstance(DateFormat.SHORT);
 //        }
 //    };
-//
+
 //    public static Font ROBOTO_LIGHT_FONT = null;
-//
-//    private static final HanyuPinyinOutputFormat DEFAULT_HANYU_PINYIN_OUTPUT_FORMAT = new HanyuPinyinOutputFormat();
-//    static {
-//        DEFAULT_HANYU_PINYIN_OUTPUT_FORMAT.setCaseType(HanyuPinyinCaseType.LOWERCASE);
-//        DEFAULT_HANYU_PINYIN_OUTPUT_FORMAT.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-//        DEFAULT_HANYU_PINYIN_OUTPUT_FORMAT.setVCharType(HanyuPinyinVCharType.WITH_V);
-//    }
-//
+
+    private static final HanyuPinyinOutputFormat DEFAULT_HANYU_PINYIN_OUTPUT_FORMAT = new HanyuPinyinOutputFormat();
+    static {
+        DEFAULT_HANYU_PINYIN_OUTPUT_FORMAT.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+        DEFAULT_HANYU_PINYIN_OUTPUT_FORMAT.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+        DEFAULT_HANYU_PINYIN_OUTPUT_FORMAT.setVCharType(HanyuPinyinVCharType.WITH_V);
+    }
+
 //    private static volatile List<String> NTPServers = null;
 //
 //    // We will use this as directory name. Do not have space or special characters.
@@ -2735,10 +2736,10 @@ public class Utils2 {
 //
     private static final HttpClient httpClient;
     private static final HttpClient httpClientWithAgentInfo;
-//
-//    /** Maximum loop count when creating temp directories. */
-//    private static final int TEMP_DIR_ATTEMPTS = 10000;
-//
+
+    /** Maximum loop count when creating temp directories. */
+    private static final int TEMP_DIR_ATTEMPTS = 10000;
+
     static {
         MultiThreadedHttpConnectionManager multiThreadedHttpConnectionManager = new MultiThreadedHttpConnectionManager();
         multiThreadedHttpConnectionManager.getParams().setMaxTotalConnections(128);

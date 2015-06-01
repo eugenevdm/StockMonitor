@@ -19,22 +19,24 @@
 
 package za.co.eugenevdm.stockmonitor.engine;
 
-        import com.google.gson.Gson;
-        import java.io.UnsupportedEncodingException;
-        import java.util.ArrayList;
-        import java.util.Collections;
-        import java.util.Comparator;
-        import java.util.HashMap;
-        import java.util.HashSet;
-        import java.util.List;
-        import java.util.Map;
-        import java.util.Set;
-        import org.apache.commons.logging.Log;
-        import org.apache.commons.logging.LogFactory;
-        import za.co.eugenevdm.stockmonitor.engine.currency.Currency;
+import com.google.gson.Gson;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import za.co.eugenevdm.stockmonitor.engine.currency.Currency;
 
 /**
- *
  * @author yccheok
  */
 public class GoogleStockServer implements StockServer {
@@ -114,30 +116,33 @@ public class GoogleStockServer implements StockServer {
 
     @Override
     public List<Stock> getStocks(List<Code> codes) throws StockNotFoundException {
-        assert(codes.isEmpty() == false);
+        // TODO Removed assert
+        //assert (codes.isEmpty() == false);
 
         Map<String, Code> originalCodes = new HashMap<String, Code>();
 
         // Use StringBuilder instead of StringBuffer. We do not concern on
         // thread safety.
         final StringBuilder builder = new StringBuilder("https://www.google.com/finance/info?infotype=infoquoteall&q=");
-        try {
+        //try {
             // Exception will be thrown from apache httpclient, if we do not
             // perform URL encoding.
             for (int i = 0, size = codes.size(); i < size; i++) {
-                if (i > 0) {
-                    builder.append(",");
-                }
-                Code _code = codes.get(i);
-                String googleFormat = UnitedStatesGoogleFormatCodeLookup.INSTANCE.get(_code);
-                if (googleFormat == null) {
-                    googleFormat = Utils.toGoogleFormat(_code);
-                }
-                builder.append(java.net.URLEncoder.encode(googleFormat, "UTF-8"));
-                originalCodes.put(googleFormat, _code);
+//                if (i > 0) {
+//                    builder.append(",");
+//                }
+//                Code _code = codes.get(i);
+//                String googleFormat = UnitedStatesGoogleFormatCodeLookup.INSTANCE.get(_code);
+//                if (googleFormat == null) {
+//                    googleFormat = Utils.toGoogleFormat(_code);
+//                }
+//                builder.append(java.net.URLEncoder.encode(googleFormat, "UTF-8"));
+//                originalCodes.put(googleFormat, _code);
             }
 
-            final String location = builder.toString();
+            final String location = "https://www.google.com/finance/info?infotype=infoquoteall&q=JSE%3ABAT,JSE%3ASAB";
+
+            // final String location = builder.toString();
             final String _respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOption(location);
             if (_respond == null) {
                 throw new StockNotFoundException();
@@ -201,13 +206,13 @@ public class GoogleStockServer implements StockServer {
             }
 
             return stocks;
-        } catch (UnsupportedEncodingException ex) {
-            throw new StockNotFoundException(null, ex);
-        } catch (Exception ex) {
-            // Jackson library may cause runtime exception if there is error
-            // in the JSON string.
-            throw new StockNotFoundException(null, ex);
-        }
+//        } catch (UnsupportedEncodingException ex) {
+//            throw new StockNotFoundException(null, ex);
+//        } catch (Exception ex) {
+//            // Jackson library may cause runtime exception if there is error
+//            // in the JSON string.
+//            throw new StockNotFoundException(null, ex);
+//        }
     }
 
     private List<Stock> getSpecialUSStocks(List<Code> codes) {
@@ -278,8 +283,8 @@ public class GoogleStockServer implements StockServer {
                 public int compare(Map o0, Map o1) {
                     Object s0 = o0.get("e");
                     Object s1 = o1.get("e");
-                    String e0 = s0 instanceof String ? (String)s0 : null;
-                    String e1 = s1 instanceof String ? (String)s1 : null;
+                    String e0 = s0 instanceof String ? (String) s0 : null;
+                    String e1 = s1 instanceof String ? (String) s1 : null;
                     return Integer.compare(Utils.getGoogleUnitedStatesStockExchangePriority(e0), Utils.getGoogleUnitedStatesStockExchangePriority(e1));
                 }
             });
@@ -357,21 +362,45 @@ public class GoogleStockServer implements StockServer {
         Currency currency = null;
 
         // Change
-        try { c = Double.parseDouble(jsonObject.get("c").replaceAll("[^0-9\\.\\-]", "")); } catch (NumberFormatException ex) { log.error(null, ex); }
+        try {
+            c = Double.parseDouble(jsonObject.get("c").replaceAll("[^0-9\\.\\-]", ""));
+        } catch (NumberFormatException ex) {
+            log.error(null, ex);
+        }
         // Last
-        try {l = Double.parseDouble(jsonObject.get("l").replaceAll("[^0-9\\.]", "")); } catch (NumberFormatException ex) { log.error(null, ex); }
+        try {
+            l = Double.parseDouble(jsonObject.get("l").replaceAll("[^0-9\\.]", ""));
+        } catch (NumberFormatException ex) {
+            log.error(null, ex);
+        }
         // Prev
-        try { p = l - c; } catch (NumberFormatException ex) { log.error(null, ex); }
+        try {
+            p = l - c;
+        } catch (NumberFormatException ex) {
+            log.error(null, ex);
+        }
         // Open
-        try { op = Double.parseDouble(jsonObject.get("op").replaceAll("[^0-9\\.\\-]", "")); } catch (NumberFormatException ex) { log.error(null, ex); }
+        try {
+            op = Double.parseDouble(jsonObject.get("op").replaceAll("[^0-9\\.\\-]", ""));
+        } catch (NumberFormatException ex) {
+            log.error(null, ex);
+        }
         // High
-        try { hi = Double.parseDouble(jsonObject.get("hi").replaceAll("[^0-9\\.]", "")); } catch (NumberFormatException ex) { log.error(null, ex); }
+        try {
+            hi = Double.parseDouble(jsonObject.get("hi").replaceAll("[^0-9\\.]", ""));
+        } catch (NumberFormatException ex) {
+            log.error(null, ex);
+        }
         // Low
-        try { lo = Double.parseDouble(jsonObject.get("lo").replaceAll("[^0-9\\.]", "")); } catch (NumberFormatException ex) { log.error(null, ex); }
+        try {
+            lo = Double.parseDouble(jsonObject.get("lo").replaceAll("[^0-9\\.]", ""));
+        } catch (NumberFormatException ex) {
+            log.error(null, ex);
+        }
         // Vol
         try {
             String vo_string = jsonObject.get("vo");
-            vo = (long)Double.parseDouble(vo_string.replaceAll("[^0-9\\.]", ""));
+            vo = (long) Double.parseDouble(vo_string.replaceAll("[^0-9\\.]", ""));
             if (vo_string.endsWith("K")) {
                 vo = vo * 1000;
             } else if (vo_string.endsWith("M")) {
@@ -379,9 +408,15 @@ public class GoogleStockServer implements StockServer {
             } else if (vo_string.endsWith("B")) {
                 vo = vo * 1000000000;
             }
-        } catch (NumberFormatException ex) { log.error(null, ex); }
+        } catch (NumberFormatException ex) {
+            log.error(null, ex);
+        }
         // Change Percentage
-        try { cp = Double.parseDouble(jsonObject.get("cp").replaceAll("[^0-9\\.\\-]", "")); } catch (NumberFormatException ex) { log.error(null, ex); }
+        try {
+            cp = Double.parseDouble(jsonObject.get("cp").replaceAll("[^0-9\\.\\-]", ""));
+        } catch (NumberFormatException ex) {
+            log.error(null, ex);
+        }
 
         currency = getBestCurrency(jsonObject.get("l_cur"));
 
@@ -406,6 +441,7 @@ public class GoogleStockServer implements StockServer {
     }
 
     private static final Map<String, String> currencySymbolToCurrencyCodeMap = new HashMap<>();
+
     static {
         currencySymbolToCurrencyCodeMap.put("A$", "AUD");
         currencySymbolToCurrencyCodeMap.put("Rs", "INR");

@@ -548,15 +548,17 @@ public class Utils {
         return Code.newInstance(tmp.substring(0, endIndex));
     }
 
-//    /**
-//     * Returns best search engine based on current selected country.
-//     *
-//     * @return Best search engine based on current selected country.
-//     */
-//    public static boolean isPinyinTSTSearchEngineRequiredForSymbol() {
-//        final Country country = JStock.instance().getJStockOptions().getCountry();
-//        return (country == Country.China || country == Country.Taiwan);
-//    }
+    /**
+     * Returns best search engine based on current selected country.
+     *
+     * @return Best search engine based on current selected country.
+     */
+    public static boolean isPinyinTSTSearchEngineRequiredForSymbol() {
+        // TODO Truncated statement
+        return true;
+        //final Country country = JStock.instance().getJStockOptions().getCountry();
+        //return (country == Country.China || country == Country.Taiwan);
+    }
 
 //    /**
 //     * Returns <code>true</code> if we should maintain the symbol as database's,

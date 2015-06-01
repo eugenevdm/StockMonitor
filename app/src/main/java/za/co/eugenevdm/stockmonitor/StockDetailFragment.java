@@ -7,7 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.List;
 
+import za.co.eugenevdm.stockmonitor.engine.Code;
+import za.co.eugenevdm.stockmonitor.engine.GoogleStockServer;
+import za.co.eugenevdm.stockmonitor.engine.Stock;
+import za.co.eugenevdm.stockmonitor.engine.StockNotFoundException;
 import za.co.eugenevdm.stockmonitor.stock.StockObject;
 
 /**
@@ -56,6 +62,17 @@ public class StockDetailFragment extends Fragment {
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.stock_detail)).setText(mItem.name);
             // Obtain latest quote from Google Finance
+            GoogleStockServer server = new GoogleStockServer();
+            List codes = Arrays.asList("A", "B", "C");
+            try {
+                List test = server.getStocks(codes);
+            } catch (StockNotFoundException e) {
+                e.printStackTrace();
+            }
+//            //Stock stock = new Stock();
+//            Code code = new Code("abc123");
+//            Stock stock = server.getStock();
+
             ((TextView) rootView.findViewById(R.id.stock_price)).setText(mItem.ticker);
         }
 
