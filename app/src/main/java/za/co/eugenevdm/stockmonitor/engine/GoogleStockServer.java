@@ -21,6 +21,9 @@ package za.co.eugenevdm.stockmonitor.engine;
 
 import com.google.gson.Gson;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,9 +33,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import za.co.eugenevdm.stockmonitor.engine.currency.Currency;
 
@@ -125,9 +125,9 @@ public class GoogleStockServer implements StockServer {
         // thread safety.
         final StringBuilder builder = new StringBuilder("https://www.google.com/finance/info?infotype=infoquoteall&q=");
         //try {
-            // Exception will be thrown from apache httpclient, if we do not
-            // perform URL encoding.
-            for (int i = 0, size = codes.size(); i < size; i++) {
+        // Exception will be thrown from apache httpclient, if we do not
+        // perform URL encoding.
+        for (int i = 0, size = codes.size(); i < size; i++) {
 //                if (i > 0) {
 //                    builder.append(",");
 //                }
@@ -138,74 +138,74 @@ public class GoogleStockServer implements StockServer {
 //                }
 //                builder.append(java.net.URLEncoder.encode(googleFormat, "UTF-8"));
 //                originalCodes.put(googleFormat, _code);
-            }
+        }
 
-            final String location = "https://www.google.com/finance/info?infotype=infoquoteall&q=JSE%3ABAT,JSE%3ASAB";
+        final String location = "https://www.google.com/finance/info?infotype=infoquoteall&q=JSE%3ABAT,JSE%3ASAB";
 
-            // final String location = builder.toString();
-            final String _respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOption(location);
-            if (_respond == null) {
-                throw new StockNotFoundException();
-            }
-            final String respond = Utils.GoogleRespondToJSON(_respond);
-            // Google returns "// [ { "id": ... } ]".
-            // We need to turn them into "[ { "id": ... } ]".
-            final List<Map> jsonArray = gson.fromJson(respond, List.class);
+        // final String location = builder.toString();
+        final String _respond = za.co.eugenevdm.stockmonitor.gui.Utils2.getResponseBodyAsStringBasedOnProxyAuthOption(location);
+        if (_respond == null) {
+            throw new StockNotFoundException();
+        }
+        final String respond = Utils.GoogleRespondToJSON(_respond);
+        // Google returns "// [ { "id": ... } ]".
+        // We need to turn them into "[ { "id": ... } ]".
+        final List<Map> jsonArray = gson.fromJson(respond, List.class);
 
-            if (jsonArray == null) {
-                throw new StockNotFoundException();
-            }
+        if (jsonArray == null) {
+            throw new StockNotFoundException();
+        }
 
-            final List<Stock> stocks = new ArrayList<Stock>();
-            Set<Code> currCodes = new HashSet<Code>();
+        final List<Stock> stocks = new ArrayList<Stock>();
+        Set<Code> currCodes = new HashSet<Code>();
 
-            // Let's say London stock exchange & OTCMKTS stock exchange both
-            // contains LON:ENVS and OTCMKTS:ENVS respectively. Making query
-            // using "ENVS" will return LON:ENVS. In such case, we need to
-            // perform some special treaty.
-            List<Stock> specialUSStocks = new ArrayList<Stock>();
+        // Let's say London stock exchange & OTCMKTS stock exchange both
+        // contains LON:ENVS and OTCMKTS:ENVS respectively. Making query
+        // using "ENVS" will return LON:ENVS. In such case, we need to
+        // perform some special treaty.
+        List<Stock> specialUSStocks = new ArrayList<Stock>();
 
-            for (int i = 0, size = jsonArray.size(); i < size; i++) {
-                final Map<String, String> jsonObject = jsonArray.get(i);
-                Pair<Stock, Boolean> stockEx = toStockEx(jsonObject, originalCodes);
-                if (stockEx != null) {
-                    final Stock stock = stockEx.first;
-                    if (stockEx.second) {
-                        if (false == currCodes.contains(stock.code)) {
-                            stocks.add(stock);
-                            currCodes.add(stock.code);
-                        }
-                    } else {
-                        specialUSStocks.add(stockEx.first);
+        for (int i = 0, size = jsonArray.size(); i < size; i++) {
+            final Map<String, String> jsonObject = jsonArray.get(i);
+            Pair<Stock, Boolean> stockEx = toStockEx(jsonObject, originalCodes);
+            if (stockEx != null) {
+                final Stock stock = stockEx.first;
+                if (stockEx.second) {
+                    if (false == currCodes.contains(stock.code)) {
+                        stocks.add(stock);
+                        currCodes.add(stock.code);
                     }
+                } else {
+                    specialUSStocks.add(stockEx.first);
                 }
             }
+        }
 
-            // Special US stock handling.
-            List<Code> specialUSCodes = new ArrayList<Code>();
-            for (Stock stock : specialUSStocks) {
-                specialUSCodes.add(stock.code);
+        // Special US stock handling.
+        List<Code> specialUSCodes = new ArrayList<Code>();
+        for (Stock stock : specialUSStocks) {
+            specialUSCodes.add(stock.code);
+        }
+        specialUSStocks = getSpecialUSStocks(specialUSCodes);
+
+        for (Stock stock : specialUSStocks) {
+            if (false == currCodes.contains(stock.code)) {
+                stocks.add(stock);
+                currCodes.add(stock.code);
             }
-            specialUSStocks = getSpecialUSStocks(specialUSCodes);
+        }
 
-            for (Stock stock : specialUSStocks) {
-                if (false == currCodes.contains(stock.code)) {
-                    stocks.add(stock);
-                    currCodes.add(stock.code);
-                }
+        for (Code code : codes) {
+            if (false == currCodes.contains(code)) {
+                stocks.add(za.co.eugenevdm.stockmonitor.engine.Utils.getEmptyStock(code, Symbol.newInstance(code.toString())));
             }
+        }
 
-            for (Code code : codes) {
-                if (false == currCodes.contains(code)) {
-                    stocks.add(za.co.eugenevdm.stockmonitor.engine.Utils.getEmptyStock(code, Symbol.newInstance(code.toString())));
-                }
-            }
+        if (stocks.size() != codes.size()) {
+            throw new StockNotFoundException("Stock size (" + stocks.size() + ") inconsistent with code size (" + codes.size() + ")");
+        }
 
-            if (stocks.size() != codes.size()) {
-                throw new StockNotFoundException("Stock size (" + stocks.size() + ") inconsistent with code size (" + codes.size() + ")");
-            }
-
-            return stocks;
+        return stocks;
 //        } catch (UnsupportedEncodingException ex) {
 //            throw new StockNotFoundException(null, ex);
 //        } catch (Exception ex) {
