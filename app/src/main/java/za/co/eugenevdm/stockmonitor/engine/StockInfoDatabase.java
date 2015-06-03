@@ -281,18 +281,18 @@ public class StockInfoDatabase {
 
     private boolean removeUserDefinedStockInfo(StockInfo stockInfo) {
         if (stockInfo == null) {
-            throw new java.lang.IllegalArgumentException("Stock info cannot be null");
+            throw new java.lang.IllegalArgumentException("StockObject info cannot be null");
         }
 
         if (stockInfo.code.toString().trim().length() <= 0 || stockInfo.symbol.toString().trim().length() <= 0) {
-            throw new java.lang.IllegalArgumentException("Stock info length cannot be 0");
+            throw new java.lang.IllegalArgumentException("StockObject info length cannot be 0");
         }
 
         final Industry industry = Industry.UserDefined;
         final Board board = Board.UserDefined;
 
-        // Do call getStockInfos(Stock.Industry) and
-        // getStockInfos(Stock.Board), which will give you heavy performance 
+        // Do call getStockInfos(StockObject.Industry) and
+        // getStockInfos(StockObject.Board), which will give you heavy performance
         // hit.
         final List<StockInfo> iStockInfos = this.industryToStockInfos.get(industry);
         final List<StockInfo> bStockInfos = this.boardToStockInfos.get(board);
@@ -411,11 +411,11 @@ public class StockInfoDatabase {
 
     private boolean _addUserDefinedStockInfo(StockInfo stockInfo) {
         if (stockInfo == null) {
-            throw new java.lang.IllegalArgumentException("Stock info cannot be null");
+            throw new java.lang.IllegalArgumentException("StockObject info cannot be null");
         }
 
         if (stockInfo.code.toString().trim().length() <= 0 || stockInfo.symbol.toString().trim().length() <= 0) {
-            throw new java.lang.IllegalArgumentException("Stock info length cannot be 0");
+            throw new java.lang.IllegalArgumentException("StockObject info length cannot be 0");
         }
 
         // We need to ensure there is no duplicated stock info being added.
@@ -589,9 +589,9 @@ public class StockInfoDatabase {
 
     // Entire stock info of this database.
     private final List<StockInfo> stockInfos = new ArrayList<StockInfo>();
-    // Stock industry to list of stock info mapping.
+    // StockObject industry to list of stock info mapping.
     private final Map<Industry, List<StockInfo>> industryToStockInfos = new HashMap<>();
-    // Stock board to list of stock info mapping.
+    // StockObject board to list of stock info mapping.
     private final Map<Board, List<StockInfo>> boardToStockInfos = new HashMap<>();
 
     // Symbol to list of stock info mapping.

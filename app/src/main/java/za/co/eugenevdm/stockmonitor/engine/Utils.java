@@ -248,8 +248,8 @@ public class Utils {
      * @param file The CSV file
      * @return List of stocks carried by the CSV file.
      */
-//    public static List<Stock> getStocksFromCSVFile(File file) {
-//        List<Stock> stocks = new ArrayList<Stock>();
+//    public static List<StockObject> getStocksFromCSVFile(File file) {
+//        List<StockObject> stocks = new ArrayList<StockObject>();
 //        FileInputStream fileInputStream = null;
 //        InputStreamReader inputStreamReader = null;
 //        CSVReader csvreader = null;
@@ -329,7 +329,7 @@ public class Utils {
 //                    industry = Industry.Unknown;
 //                }
 //
-//                final Stock stock = new Stock.Builder(Code.newInstance(code), Symbol.newInstance(symbol)).name(name).board(board).industry(industry).build();
+//                final StockObject stock = new StockObject.Builder(Code.newInstance(code), Symbol.newInstance(symbol)).name(name).board(board).industry(industry).build();
 //                stocks.add(stock);
 //            }
 //        } catch (IOException ex) {
@@ -348,7 +348,7 @@ public class Utils {
 //        return stocks;
 //    }
 
-//    public static Pair<StockInfoDatabase, StockNameDatabase> toStockDatabase(List<Stock> stocks, Country country) {
+//    public static Pair<StockInfoDatabase, StockNameDatabase> toStockDatabase(List<StockObject> stocks, Country country) {
 //        assert(false == stocks.isEmpty());
 //
 //        // Let's make our database since we get a list of good stocks.

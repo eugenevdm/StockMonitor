@@ -1,4 +1,4 @@
-package za.co.eugenevdm.stockmonitor.stock;
+package za.co.eugenevdm.stockmonitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,10 +23,18 @@ public class StockObject {
     public static Map<String, StockItem> ITEM_MAP = new HashMap<String, StockItem>();
 
     static {
+
         // Add 3 sample items.
-        addItem(new StockItem("1", "Brait SE", "JSE:BAT"));
-        addItem(new StockItem("2", "SABMiller plc (S. Africa)", "JSE:SAB"));
-        addItem(new StockItem("3", "Steinhoff International Holdings Limited", "JSE:SHF"));
+        //addItem(new StockItem("1", "Brait SE", "JSE:BAT"));
+        //addItem(new StockItem("2", "SABMiller plc (S. Africa)", "JSE:SAB"));
+        //addItem(new StockItem("3", "Steinhoff International Holdings Limited", "JSE:SHF"));
+    }
+
+    public static void addItems(List<Stock> stockList) {
+        for(Stock stock : stockList) {
+            addItem(new StockItem(stock.getId(),stock.getName(),stock.getTicker(), stock.getPrice()));
+            // some code here
+        }
     }
 
     private static void addItem(StockItem item) {
@@ -40,12 +48,15 @@ public class StockObject {
     public static class StockItem {
         public String id;
         public String name;
+        public String exchange;
         public String ticker;
+        public String price;
 
-        public StockItem(String id, String name, String ticker) {
+        public StockItem(String id, String name, String ticker, String price) {
             this.id = id;
             this.name = name;
             this.ticker = ticker;
+            this.ticker = price;
         }
 
         @Override
@@ -54,3 +65,4 @@ public class StockObject {
         }
     }
 }
+

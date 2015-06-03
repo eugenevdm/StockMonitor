@@ -9,12 +9,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class SimpleAdapter extends ArrayAdapter<Contact> {
+public class SimpleAdapter extends ArrayAdapter<Stock> {
 
-    private List<Contact> itemList;
+    private List<Stock> itemList;
     private Context context;
 
-    public SimpleAdapter(List<Contact> itemList, Context ctx) {
+    public SimpleAdapter(List<Stock> itemList, Context ctx) {
         super(ctx, android.R.layout.simple_list_item_1, itemList);
         this.itemList = itemList;
         this.context = ctx;
@@ -26,7 +26,7 @@ public class SimpleAdapter extends ArrayAdapter<Contact> {
         return 0;
     }
 
-    public Contact getItem(int position) {
+    public Stock getItem(int position) {
         if (itemList != null)
             return itemList.get(position);
         return null;
@@ -47,15 +47,15 @@ public class SimpleAdapter extends ArrayAdapter<Contact> {
             v = inflater.inflate(R.layout.list_item, null);
         }
 
-        Contact c = itemList.get(position);
+        Stock c = itemList.get(position);
         TextView text = (TextView) v.findViewById(R.id.name);
         text.setText(c.getName());
 
         TextView text1 = (TextView) v.findViewById(R.id.T);
-        text1.setText(c.getT());
+        text1.setText(c.getTicker());
 
         TextView text2 = (TextView) v.findViewById(R.id.E);
-        text2.setText(c.getE());
+        text2.setText(c.getExchange());
 
         TextView text3 = (TextView) v.findViewById(R.id.type);
         text3.setText(c.getType());
@@ -64,11 +64,11 @@ public class SimpleAdapter extends ArrayAdapter<Contact> {
 
     }
 
-    public List<Contact> getItemList() {
+    public List<Stock> getItemList() {
         return itemList;
     }
 
-    public void setItemList(List<Contact> itemList) {
+    public void setItemList(List<Stock> itemList) {
         this.itemList = itemList;
     }
 

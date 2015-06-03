@@ -202,7 +202,7 @@ public class GoogleStockServer implements StockServer {
         }
 
         if (stocks.size() != codes.size()) {
-            throw new StockNotFoundException("Stock size (" + stocks.size() + ") inconsistent with code size (" + codes.size() + ")");
+            throw new StockNotFoundException("StockObject size (" + stocks.size() + ") inconsistent with code size (" + codes.size() + ")");
         }
 
         return stocks;

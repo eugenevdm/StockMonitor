@@ -39,7 +39,7 @@ public class BrazilYahooStockServer extends AbstractYahooStockServer {
         final List<Stock> tmp = super.getStocks(codes);
         final List<Stock> stocks = new ArrayList<Stock>();
         for (Stock stock : tmp) {
-            // For Brazil Stock Market, change "Stock    Name" to "Stock Name".
+            // For Brazil StockObject Market, change "StockObject    Name" to "StockObject Name".
             final String name = longSpacePattern.matcher(stock.getName()).replaceAll("").trim();
             final String symbol = longSpacePattern.matcher(stock.symbol.toString()).replaceAll("").trim();
             final Stock s = new Stock(
@@ -81,7 +81,7 @@ public class BrazilYahooStockServer extends AbstractYahooStockServer {
     public Stock getStock(Code code) throws StockNotFoundException
     {
         final Stock tmp = super.getStock(code);
-        // For Brazil Stock Market, change "Stock    Name" to "Stock Name".
+        // For Brazil StockObject Market, change "StockObject    Name" to "StockObject Name".
         final String name = longSpacePattern.matcher(tmp.getName()).replaceAll("").trim();
         final String _symbol = longSpacePattern.matcher(tmp.symbol.toString()).replaceAll("").trim();
         final Stock stock = new Stock(

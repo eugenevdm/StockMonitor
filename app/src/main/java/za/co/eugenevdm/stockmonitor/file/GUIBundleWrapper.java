@@ -85,7 +85,7 @@ public class GUIBundleWrapper {
         }
         
         Map<String, String> _map = new HashMap<String, String>();
-        _map.put("MainFrame_Stock", "Stock");
+        _map.put("MainFrame_Stock", "StockObject");
         _map.put("MainFrame_Code", "Code");
         _map.put("MainFrame_Symbol", "Symbol");
         _map.put("MainFrame_Prev", "Prev");
@@ -110,7 +110,7 @@ public class GUIBundleWrapper {
         // For stock name.
         _map.put("MainFrame_Name", "Name");
         
-        _map.put("PortfolioManagementJPanel_Stock", "Stock");      
+        _map.put("PortfolioManagementJPanel_Stock", "StockObject");
         _map.put("PortfolioManagementJPanel_Date", "Date");
         _map.put("PortfolioManagementJPanel_Units", "Units");    
         _map.put("PortfolioManagementJPanel_PurchasePrice", "Purchase Price");

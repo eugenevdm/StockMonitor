@@ -289,7 +289,7 @@ public class Stock {
         }
     }
 
-    /** Creates a new instance of Stock */
+    /** Creates a new instance of StockObject */
     private Stock(Builder builder) {
         this(
                 builder.code,
@@ -386,7 +386,7 @@ public class Stock {
     }
 
     // I didn't make this construcotr private. As I would like to make user able
-    // to construct Stock either through this constructor or Builder.
+    // to construct StockObject either through this constructor or Builder.
     public Stock(Stock stock) {
         this.code = stock.code;
         this.symbol = stock.symbol;

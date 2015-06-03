@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * This class is used to provide stock code to stock name mapping, as some
  * stock server doesn't return good stock name. For example, China users wish
- * to view stock name in Chinese. However, Yahoo! Stock Server returns stock
+ * to view stock name in Chinese. However, Yahoo! StockObject Server returns stock
  * name in English. In this case, we need to retrieve stock name from
  * <code>StockNameDatabase</code>.
  */

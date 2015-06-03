@@ -326,7 +326,7 @@ public class Statement {
             }
         }
         if (size == 18) {
-            /* Wow! Beware, Stock will being translated into Code and Symbol */
+            /* Wow! Beware, StockObject will being translated into Code and Symbol */
             // GUIBundle.getString("PortfolioManagementJPanel_Stock")
             if (
             atoms.get(0).getType().equals(guiBundleWrapper.getString("MainFrame_Code")) &&
@@ -357,7 +357,7 @@ public class Statement {
             // PortfolioManagementJPanel_ClearingFee, PortfolioManagementJPanel_StampDuty.
             // They are being introduced starting from 1.0.6x
 
-            /* Wow! Beware, Stock will being translated into Code and Symbol */
+            /* Wow! Beware, StockObject will being translated into Code and Symbol */
             // GUIBundle.getString("PortfolioManagementJPanel_Stock")
             if (
             atoms.get(0).getType().equals(guiBundleWrapper.getString("MainFrame_Code")) &&

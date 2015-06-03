@@ -74,13 +74,13 @@ public class YahooStockFormat implements StockFormat {
 
     // Update on 19 March 2009 : We cannot assume certain parameters will always
     // be float. They may become integer too. For example, in the case of Korea
-    // Stock Market, Previous Close is in integer. We shall apply string quote
+    // StockObject Market, Previous Close is in integer. We shall apply string quote
     // protection method too on them.
     //
     // Here are the index since 19 March 2009 :
     // (0) Symbol
     // (1) Name
-    // (2) Stock Exchange
+    // (2) StockObject Exchange
     // (3) Symbol
     // (4) Previous Close
     // (5) Symbol
@@ -114,7 +114,7 @@ public class YahooStockFormat implements StockFormat {
     //
     // s = Symbol
     // n = Name
-    // x = Stock Exchange
+    // x = StockObject Exchange
     // o = Open             <-- Although we will keep this value in our stock data structure, we will not show
     //                          it to clients. As some stock servers unable to retrieve open price.
     // p = Previous Close

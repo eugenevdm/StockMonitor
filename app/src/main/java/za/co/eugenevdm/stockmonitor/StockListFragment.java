@@ -1,14 +1,24 @@
 package za.co.eugenevdm.stockmonitor;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import za.co.eugenevdm.stockmonitor.stock.StockObject;
+import java.util.List;
+
+import za.co.eugenevdm.stockmonitor.engine.Utils;
 
 /**
  * A list fragment representing a list of Stocks. This fragment
@@ -26,6 +36,7 @@ public class StockListFragment extends ListFragment {
      * activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    private static final String TAG = "sm_StockListFragment";
 
     /**
      * The fragment's current callback object, which is notified of list item
@@ -71,12 +82,26 @@ public class StockListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getAllStocks(new VolleyCallback() {
+            @Override
+            public void onSuccess(List<Stock> result) {
+                StockObject.addItems(result);
+
+                setListAdapter(new ArrayAdapter<StockObject.StockItem>(
+                        getActivity(),
+                        android.R.layout.simple_list_item_activated_1,
+                        android.R.id.text1,
+                        StockObject.ITEMS));
+
+            }
+        });
+
         // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<StockObject.StockItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                StockObject.ITEMS));
+//        setListAdapter(new ArrayAdapter<StockObject.StockItem>(
+//                getActivity(),
+//                android.R.layout.simple_list_item_activated_1,
+//                android.R.id.text1,
+//                StockObject.ITEMS));
     }
 
     @Override
@@ -148,5 +173,45 @@ public class StockListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    public void getAllStocks(final VolleyCallback callback) {
+
+        String tag_string_req = "string_req";
+        String url = "https://www.google.com/finance/info?infotype=infoquoteall&q=JSE%3ABAT,JSE%3ASAB";
+        final Gson gson = new Gson();
+
+        final ProgressDialog pDialog = new ProgressDialog(getActivity());
+        pDialog.setMessage("Loading...");
+        pDialog.show();
+
+        StringRequest strReq = new StringRequest(Request.Method.GET,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                final String respond = Utils.GoogleRespondToJSON(response);
+                // Google returns "// [ { "id": ... } ]".
+                // We need to turn them into "[ { "id": ... } ]".
+                // http://stackoverflow.com/questions/15158916/convert-json-array-to-a-java-list-object
+                TypeToken<List<Stock>> token = new TypeToken<List<Stock>>() {};
+                List<Stock> stockList = gson.fromJson(respond, token.getType());
+                pDialog.hide();
+                callback.onSuccess(stockList);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                //pDialog.hide();
+            }
+        });
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    public interface VolleyCallback {
+        void onSuccess(List<Stock> result);
     }
 }
