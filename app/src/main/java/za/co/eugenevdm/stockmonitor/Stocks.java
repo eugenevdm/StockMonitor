@@ -39,13 +39,5 @@ public class Stocks extends ArrayList<Stock> {
 
 }
 
-/*
 
-Documentation
-
-http://www.androidhive.info/2014/05/android-working-with-volley-library-1/
-http://www.survivingwithandroid.com/2013/11/android-volley-dynamic-listview.html
-http://stackoverflow.com/questions/28120029/how-can-i-return-value-from-function-onresponse-of-volley
-
-*/
 

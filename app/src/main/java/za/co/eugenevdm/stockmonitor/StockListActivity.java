@@ -1,8 +1,21 @@
 package za.co.eugenevdm.stockmonitor;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
+
+import za.co.eugenevdm.stockmonitor.engine.Utils;
 
 
 /**
@@ -24,6 +37,7 @@ import android.app.Activity;
 public class StockListActivity extends Activity
         implements StockListFragment.Callbacks {
 
+    private static final String TAG = "sm_StockListActivity";
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -51,6 +65,8 @@ public class StockListActivity extends Activity
 
         // TODO: If exposing deep links into your app, handle intents here.
     }
+
+
 
     /**
      * Callback method from {@link StockListFragment.Callbacks}

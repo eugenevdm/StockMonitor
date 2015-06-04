@@ -51,14 +51,14 @@ public class SimpleAdapter extends ArrayAdapter<Stock> {
         TextView text = (TextView) v.findViewById(R.id.name);
         text.setText(c.getName());
 
-        TextView text1 = (TextView) v.findViewById(R.id.T);
+        TextView text1 = (TextView) v.findViewById(R.id.price);
         text1.setText(c.getTicker());
 
-        TextView text2 = (TextView) v.findViewById(R.id.E);
-        text2.setText(c.getExchange());
-
-        TextView text3 = (TextView) v.findViewById(R.id.type);
-        text3.setText(c.getType());
+//        TextView text2 = (TextView) v.findViewById(R.id.E);
+//        text2.setText(c.getExchange());
+//
+//        TextView text3 = (TextView) v.findViewById(R.id.type);
+//        text3.setText(c.getType());
 
         return v;
 
