@@ -89,12 +89,16 @@ public class StockListFragment extends ListFragment {
         setListAdapter(adapter);
 
         String tag_string_req = "string_req";
-        String url = "https://www.google.com/finance/info?infotype=infoquoteall&q=JSE%3ABAT,JSE%3ASAB,NASDAQ%3ATSLA";
+        String stocks = "JSE:BAT,JSE:SAB,NASDAQ:TSLA,JSE:SHF,NASDAQ:MSFT,NYSE:ORCL";
+        //stocks = stocks.replace(",","&");
+        //stocks = stocks.replace(":","%3A");
+        // String url = "https://www.google.com/finance/info?infotype=infoquoteall&q=JSE%3ABAT,JSE%3ASAB,NASDAQ%3ATSLA";
+        String url = "https://www.google.com/finance/info?infotype=infoquoteall&q=" + stocks;
         final Gson gson = new Gson();
 
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Loading...");
-        //pDialog.show();
+        pDialog.setMessage("Updating...");
+        pDialog.show();
 
         StringRequest strReq = new StringRequest(Request.Method.GET,
                 url, new Response.Listener<String>() {
@@ -107,7 +111,7 @@ public class StockListFragment extends ListFragment {
                 // http://stackoverflow.com/questions/15158916/convert-json-array-to-a-java-list-object
                 TypeToken<List<Stock>> token = new TypeToken<List<Stock>>() {};
                 List<Stock> serverStockList = gson.fromJson(respond, token.getType());
-                //pDialog.hide();
+                pDialog.hide();
 
                 for(Stock serverStock : serverStockList) {
                     String currency = "";
@@ -132,8 +136,10 @@ public class StockListFragment extends ListFragment {
                     s.setTicker(serverStock.getTicker());
                     // Add currency to price
                     s.setPrice(currency + serverStock.getPrice());
+                    s.setPe(serverStock.getPe());
+                    s.setMc(serverStock.getMarketCap());
                     stocksList.add(s);
-                    Stock.addItem(new Stock.StockItem(s.getId(),s.getName(),s.getExchange(),s.getTicker(),s.getPrice()));
+                    Stock.addItem(new Stock.StockItem(s.getId(),s.getName(),s.getExchange(),s.getTicker(),s.getPrice(),s.getPe(),s.getMarketCap()));
                 }
 
                 adapter.notifyDataSetChanged();
@@ -144,7 +150,7 @@ public class StockListFragment extends ListFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                //pDialog.hide();
+                pDialog.hide();
             }
         });
         // Add request to request queue

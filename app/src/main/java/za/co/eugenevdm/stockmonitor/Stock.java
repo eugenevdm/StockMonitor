@@ -8,20 +8,28 @@ import java.util.Map;
 
 public class Stock implements Serializable {
 
-    private String id;
-    private String e;
-    private String t;
-    private String name;
-    private String l;
-
+    private String id;      // Google ID
+    private String e;       // Exchange
+    private String t;       // Ticker
+    private String name;    // Name
+    private String l;       // Price (last price)
+    private String pe;      // PE
+    private String mc;      // Market cap
     public static List<StockItem> ITEMS = new ArrayList<StockItem>();
 
     /**
-     * A map of sample (dummy) items, by ID.
+     * A map of stock items, by ID.
      */
     public static Map<String, StockItem> ITEM_MAP = new HashMap<String, StockItem>();
 
-    void setId(String id) { this.id = id; }
+    public static void addItem(StockItem item) {
+        ITEMS.add(item);
+        ITEM_MAP.put(item.id, item);
+    }
+
+    void setId(String id) {
+        this.id = id;
+    }
 
     void setName(String name) {
         this.name = name;
@@ -39,17 +47,12 @@ public class Stock implements Serializable {
         this.l = price;
     }
 
-//    public void addStock(String id, String name, String e, String t, String l) {
-//        this.id = id;
-//        this.name = name;
-//        this.e = e;
-//        this.t = t;
-//        this.l = l;
-//    }
+    public void setPe(String pe) {
+        this.pe = pe;
+    }
 
-    public static void addItem(StockItem item) {
-        ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
+    public void setMc(String mc) {
+        this.mc = mc;
     }
 
     String getId() {
@@ -72,19 +75,33 @@ public class Stock implements Serializable {
         return l;
     }
 
+    String getPe() {
+        return pe;
+    }
+
+    String getMarketCap() {
+        return mc;
+    }
+
     public static class StockItem {
         public String id;
         public String name;
         public String exchange;
         public String ticker;
+        public String exchange_ticker;
         public String price;
+        public String pe;
+        public String market_cap;
 
-        public StockItem(String id, String name, String exchange, String ticker, String price) {
+        public StockItem(String id, String name, String exchange, String ticker, String price, String pe, String market_cap) {
             this.id = id;
             this.name = name;
             this.exchange = exchange;
             this.ticker = ticker;
+            this.exchange_ticker = this.exchange + ":" + this.ticker;
             this.price = price;
+            this.pe = pe;
+            this.market_cap = market_cap;
         }
 
         @Override

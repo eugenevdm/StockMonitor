@@ -52,8 +52,10 @@ public class StockDetailFragment extends Fragment {
 
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.stock_name)).setText(mItem.name);
-            ((TextView) rootView.findViewById(R.id.stock_ticker)).setText(mItem.ticker);
+            ((TextView) rootView.findViewById(R.id.stock_exchange_ticker)).setText(mItem.exchange_ticker);
             ((TextView) rootView.findViewById(R.id.stock_price)).setText(mItem.price);
+            ((TextView) rootView.findViewById(R.id.stock_pe)).setText(mItem.pe);
+            ((TextView) rootView.findViewById(R.id.stock_market_cap)).setText(mItem.market_cap);
         }
         return rootView;
     }
