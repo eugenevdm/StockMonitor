@@ -19,7 +19,6 @@ public class CustomListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<Stock> stockItems;
-    //ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
     public CustomListAdapter(Activity activity, List<Stock> movieItems) {
         this.activity = activity;
@@ -53,15 +52,11 @@ public class CustomListAdapter extends BaseAdapter {
         TextView name = (TextView) convertView.findViewById(R.id.name);
         TextView price = (TextView) convertView.findViewById(R.id.price);
 
-        // getting movie data for the row
-        Stock m = stockItems.get(position);
+        // Get row data
+        Stock s = stockItems.get(position);
 
-        // thumbnail image
-        //thumbNail.setImageUrl(m.getThumbnailUrl(), imageLoader);
-
-        // title
-        name.setText(m.getName());
-        price.setText(m.getPrice());
+        name.setText(s.getName());
+        price.setText(s.getPrice());
 
         return convertView;
     }

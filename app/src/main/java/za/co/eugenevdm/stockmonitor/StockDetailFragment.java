@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
- * A fragment representing a single StockObject detail screen.
+ * A fragment representing a single Stock detail screen.
  * This fragment is either contained in a {@link StockListActivity}
  * in two-pane mode (on tablets) or a {@link StockDetailActivity}
  * on handsets.
@@ -24,7 +24,7 @@ public class StockDetailFragment extends Fragment {
     /**
      * The dummy name this fragment is presenting.
      */
-    private StockObject.StockItem mItem;
+    private Stock.StockItem mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -41,7 +41,7 @@ public class StockDetailFragment extends Fragment {
             // Load the dummy name specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load name from a name provider.
-            mItem = StockObject.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mItem = Stock.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
     }
 

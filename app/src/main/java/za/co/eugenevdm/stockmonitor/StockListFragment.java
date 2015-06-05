@@ -54,7 +54,7 @@ public class StockListFragment extends ListFragment {
      * implement. This mechanism allows activities to be notified of item
      * selections.
      */
-    public interface Callbacks {
+    interface Callbacks {
         /**
          * Callback for when an item has been selected.
          */
@@ -94,7 +94,7 @@ public class StockListFragment extends ListFragment {
 
         final ProgressDialog pDialog = new ProgressDialog(getActivity());
         pDialog.setMessage("Loading...");
-        pDialog.show();
+        //pDialog.show();
 
         StringRequest strReq = new StringRequest(Request.Method.GET,
                 url, new Response.Listener<String>() {
@@ -106,40 +106,50 @@ public class StockListFragment extends ListFragment {
                 // We need to turn them into "[ { "id": ... } ]".
                 // http://stackoverflow.com/questions/15158916/convert-json-array-to-a-java-list-object
                 TypeToken<List<Stock>> token = new TypeToken<List<Stock>>() {};
-                List<Stock> stockList = gson.fromJson(respond, token.getType());
-                pDialog.hide();
+                List<Stock> serverStockList = gson.fromJson(respond, token.getType());
+                //pDialog.hide();
 
-                for(Stock stock : stockList) {
+                for(Stock serverStock : serverStockList) {
+                    String currency = "";
+                    String ex = serverStock.getExchange();
+                    String p = serverStock.getPrice();
+                    if (ex.equals("JSE")) {
+                        // TODO Migrate to object method
+                        currency = "R ";
+                        // TODO Migrate to object method
+                        p = p.replace(",", "");
+                        float f = Float.parseFloat(p);
+                        f = f / 100;
+                        p = Float.toString(f);
+                        serverStock.setPrice(p);
+                    } else {
+                        currency = "$";
+                    }
                     Stock s = new Stock();
-                    s.setName(stock.getName());
-                    s.setPrice(stock.getPrice());
+                    s.setId(serverStock.getId());
+                    s.setName(serverStock.getName());
+                    s.setExchange(serverStock.getExchange());
+                    s.setTicker(serverStock.getTicker());
+                    // Add currency to price
+                    s.setPrice(currency + serverStock.getPrice());
                     stocksList.add(s);
-                    //addItem(new StockObject.StockItem(stock.getId(),stock.getName(),stock.getTicker(), stock.getPrice()));
-                    // some code here
+                    Stock.addItem(new Stock.StockItem(s.getId(),s.getName(),s.getExchange(),s.getTicker(),s.getPrice()));
                 }
 
                 adapter.notifyDataSetChanged();
 
-                //callback.onSuccess(stockList);
-                //VolleyLog.d(TAG, response);
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
-                pDialog.hide();
+                //pDialog.hide();
             }
         });
-        // Adding request to request queue
+        // Add request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
-        // TODO: replace with a real list adapter.
-//        setListAdapter(new ArrayAdapter<StockObject.StockItem>(
-//                getActivity(),
-//                android.R.layout.simple_list_item_activated_1,
-//                android.R.id.text1,
-//                StockObject.ITEMS));
     }
 
     @Override
@@ -179,7 +189,7 @@ public class StockListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(StockObject.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(Stock.ITEMS.get(position).id);
     }
 
     @Override

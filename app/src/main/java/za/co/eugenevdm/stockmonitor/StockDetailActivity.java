@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 
 /**
- * An activity representing a single StockObject detail screen. This
+ * An activity representing a single Stock detail screen. This
  * activity is only used on handset devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
  * in a {@link StockListActivity}.
