@@ -7,14 +7,17 @@ import java.util.List;
 import java.util.Map;
 
 public class Stock implements Serializable {
-
-    private String id;      // Google ID
-    private String e;       // Exchange
-    private String t;       // Ticker
-    private String name;    // Name
-    private String l;       // Price (last price)
-    private String pe;      // PE
-    private String mc;      // Market cap
+    // JSON values
+    private long DbId;
+    private String googleId;        // Google ID
+    private String name;            // Name
+    private String e;               // Exchange
+    private String t;               // Ticker
+    private String l;               // Price (last price)
+    private String currencySymbol;        // Currency symbol, derived
+    private String pe;              // PE
+    private String mc;              // Market cap
+    private Float cp;              // Change percentage (from last day)
     public static List<StockItem> ITEMS = new ArrayList<StockItem>();
 
     /**
@@ -27,8 +30,12 @@ public class Stock implements Serializable {
         ITEM_MAP.put(item.id, item);
     }
 
-    void setId(String id) {
-        this.id = id;
+    void setDbId(long id) {
+        this.DbId = id;
+    }
+
+    void setGoogleId(String id) {
+        this.googleId = id;
     }
 
     void setName(String name) {
@@ -37,6 +44,12 @@ public class Stock implements Serializable {
 
     void setExchange(String exchange) {
         this.e = exchange;
+        // When setting the exchange, also set currency symbol
+        if (e.equals("JSE")) {
+            this.currencySymbol = "R ";
+        } else if (e.equals("NASDAQ") || e.equals("NYSE")) {
+            this.currencySymbol = "$";
+        }
     }
 
     void setTicker(String ticker) {
@@ -51,17 +64,21 @@ public class Stock implements Serializable {
         this.pe = pe;
     }
 
-    public void setMc(String mc) {
+    public void setMarketCap(String mc) {
         this.mc = mc;
     }
 
-    String getId() {
-        return id;
+    public void setCp(Float cp) {
+        this.cp = cp;
     }
 
-    String getName() {
-        return name;
+    long getDbId() { return DbId; }
+
+    String getGoogleId() {
+        return googleId;
     }
+
+    String getName() { return name; }
 
     String getExchange() {
         return e;
@@ -72,15 +89,41 @@ public class Stock implements Serializable {
     }
 
     String getPrice() {
+        // Check which exchange and set currencySymbol symbol
         return l;
+//        if (e.equals("")) {
+//            return l;
+//        } else if (e.equals("JSE")) {
+//            this.currencySymbol = "R ";
+//            l = convertToCents(l);
+//            //return l;
+//        } else if (e.equals("NASDAQ") || e.equals("NYSE")) {
+//            this.currencySymbol = "$";
+//            //return l;
+//        }
+//        return l;
+    }
+
+    String getCurrencySymbol() {
+        return currencySymbol;
     }
 
     String getPe() {
-        return pe;
+
+        if (this.pe.equals("")) {
+            return "-";
+        } else {
+            return pe;
+        }
+
     }
 
     String getMarketCap() {
         return mc;
+    }
+
+    Float getCp() {
+        return cp;
     }
 
     public static class StockItem {
@@ -92,22 +135,39 @@ public class Stock implements Serializable {
         public String price;
         public String pe;
         public String market_cap;
+        public float cp;
 
-        public StockItem(String id, String name, String exchange, String ticker, String price, String pe, String market_cap) {
-            this.id = id;
-            this.name = name;
-            this.exchange = exchange;
-            this.ticker = ticker;
-            this.exchange_ticker = this.exchange + ":" + this.ticker;
-            this.price = price;
-            this.pe = pe;
-            this.market_cap = market_cap;
+        public StockItem(String id,
+                         String name,
+                         String exchange,
+                         String ticker,
+                         String price,
+                         String pe,
+                         String market_cap,
+                         Float cp) {
+            this.id                 = id;
+            this.name               = name;
+            this.exchange           = exchange;
+            this.ticker             = ticker;
+            this.exchange_ticker    = this.exchange + ":" + this.ticker;
+            this.price              = price;
+            this.pe                 = pe;
+            this.market_cap         = market_cap;
+            this.cp                 = cp;
         }
 
         @Override
         public String toString() {
             return name;
         }
+    }
+
+    static String convertToRands(String l) {
+        l = l.replace(",", "");
+        float f = Float.parseFloat(l);
+        f = f / 100;
+        l = Float.toString(f);
+        return l;
     }
 
 }

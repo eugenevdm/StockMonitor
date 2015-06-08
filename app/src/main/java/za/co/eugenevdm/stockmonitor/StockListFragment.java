@@ -90,9 +90,6 @@ public class StockListFragment extends ListFragment {
 
         String tag_string_req = "string_req";
         String stocks = "JSE:BAT,JSE:SAB,NASDAQ:TSLA,JSE:SHF,NASDAQ:MSFT,NYSE:ORCL";
-        //stocks = stocks.replace(",","&");
-        //stocks = stocks.replace(":","%3A");
-        // String url = "https://www.google.com/finance/info?infotype=infoquoteall&q=JSE%3ABAT,JSE%3ASAB,NASDAQ%3ATSLA";
         String url = "https://www.google.com/finance/info?infotype=infoquoteall&q=" + stocks;
         final Gson gson = new Gson();
 
@@ -114,9 +111,11 @@ public class StockListFragment extends ListFragment {
                 pDialog.hide();
 
                 for(Stock serverStock : serverStockList) {
-                    String currency = "";
+                    //String currencySymbol;
+                    String currency;
                     String ex = serverStock.getExchange();
                     String p = serverStock.getPrice();
+                    //currencySymbol = serverStock.getCurrencySymbol();
                     if (ex.equals("JSE")) {
                         // TODO Migrate to object method
                         currency = "R ";
@@ -130,16 +129,26 @@ public class StockListFragment extends ListFragment {
                         currency = "$";
                     }
                     Stock s = new Stock();
-                    s.setId(serverStock.getId());
+                    s.setGoogleId(serverStock.getGoogleId());
                     s.setName(serverStock.getName());
                     s.setExchange(serverStock.getExchange());
                     s.setTicker(serverStock.getTicker());
-                    // Add currency to price
-                    s.setPrice(currency + serverStock.getPrice());
+                    // Add the currency symbol to the price
+                    s.setPrice(s.getCurrencySymbol() + serverStock.getPrice());
                     s.setPe(serverStock.getPe());
-                    s.setMc(serverStock.getMarketCap());
+                    s.setMarketCap(serverStock.getMarketCap());
+                    Float cp = serverStock.getCp();
+                    s.setCp(serverStock.getCp());
                     stocksList.add(s);
-                    Stock.addItem(new Stock.StockItem(s.getId(),s.getName(),s.getExchange(),s.getTicker(),s.getPrice(),s.getPe(),s.getMarketCap()));
+                    Stock.addItem(new
+                            Stock.StockItem(s.getGoogleId(),
+                            s.getName(),
+                            s.getExchange(),
+                            s.getTicker(),
+                            s.getPrice(),
+                            s.getPe(),
+                            s.getMarketCap(),
+                            s.getCp()));
                 }
 
                 adapter.notifyDataSetChanged();

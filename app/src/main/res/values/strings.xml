@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Stock Monitor</string>
     <string name="title_stock_detail">Stock Detail</string>
+
+    <string name="no_stocks">There are no Stocks listed</string>
+    <string name="menu_insert">Add Stock</string>
+    <string name="menu_delete">Delete Stock</string>
+    <string name="stock_summary">Summary</string>
+    <string name="stock_description">Delete Stock</string>
+    <string name="stock_edit_summary">Summary</string>
+    <string name="stock_edit_description">Description</string>
+    <string name="stock_edit_confirm">Confirm</string>
 </resources>

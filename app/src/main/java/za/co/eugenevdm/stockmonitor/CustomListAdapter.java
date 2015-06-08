@@ -1,14 +1,17 @@
 package za.co.eugenevdm.stockmonitor;
 
 /**
- * Created by eugene on 2015/06/04.
+ * List of stocks
+ *
+ * TODO View holder pattern
+ *
  */
-
 
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,13 +54,21 @@ public class CustomListAdapter extends BaseAdapter {
 
         TextView name = (TextView) convertView.findViewById(R.id.name);
         TextView price = (TextView) convertView.findViewById(R.id.price);
+        TextView cp = (TextView) convertView.findViewById(R.id.cp);
 
         // Get row data
         Stock s = stockItems.get(position);
 
         name.setText(s.getName());
         price.setText(s.getPrice());
-
+        if (s.getCp() < 0) {
+            cp.setTextColor(Color.RED);
+        } else if (s.getCp() > 0) {
+            cp.setTextColor(Color.GREEN);
+        } else {
+            cp.setTextColor(Color.WHITE);
+        }
+        cp.setText(s.getCp() + "%");
         return convertView;
     }
 
