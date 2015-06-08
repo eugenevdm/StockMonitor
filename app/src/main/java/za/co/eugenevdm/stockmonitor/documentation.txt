@@ -1,6 +1,10 @@
 Documentation
 
-Help
+
+
+The name of the app, Stock Monitor, changes to "Share Monitor" when used in ZA locale!
+
+Help Documentation Included! Get definitions of common stock exchange terms!
 
 Market capitalization
 
