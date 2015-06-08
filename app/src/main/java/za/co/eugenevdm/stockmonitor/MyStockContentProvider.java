@@ -16,7 +16,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-public class MyTodoContentProvider extends ContentProvider {
+public class MyStockContentProvider extends ContentProvider {
 
     // database
     private TodoDatabaseHelper database;
@@ -59,7 +59,7 @@ public class MyTodoContentProvider extends ContentProvider {
         checkColumns(projection);
 
         // Set the table
-        queryBuilder.setTables(TodoTable.TABLE_TODO);
+        queryBuilder.setTables(StockTable.TABLE_TODO);
 
         int uriType = sURIMatcher.match(uri);
         switch (uriType) {
@@ -67,7 +67,7 @@ public class MyTodoContentProvider extends ContentProvider {
                 break;
             case TODO_ID:
                 // adding the ID to the original query
-                queryBuilder.appendWhere(TodoTable.COLUMN_ID + "="
+                queryBuilder.appendWhere(StockTable.COLUMN_ID + "="
                         + uri.getLastPathSegment());
                 break;
             default:
@@ -96,7 +96,7 @@ public class MyTodoContentProvider extends ContentProvider {
         long id = 0;
         switch (uriType) {
             case TODOS:
-                id = sqlDB.insert(TodoTable.TABLE_TODO, null, values);
+                id = sqlDB.insert(StockTable.TABLE_TODO, null, values);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -112,18 +112,18 @@ public class MyTodoContentProvider extends ContentProvider {
         int rowsDeleted = 0;
         switch (uriType) {
             case TODOS:
-                rowsDeleted = sqlDB.delete(TodoTable.TABLE_TODO, selection,
+                rowsDeleted = sqlDB.delete(StockTable.TABLE_TODO, selection,
                         selectionArgs);
                 break;
             case TODO_ID:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    rowsDeleted = sqlDB.delete(TodoTable.TABLE_TODO,
-                            TodoTable.COLUMN_ID + "=" + id,
+                    rowsDeleted = sqlDB.delete(StockTable.TABLE_TODO,
+                            StockTable.COLUMN_ID + "=" + id,
                             null);
                 } else {
-                    rowsDeleted = sqlDB.delete(TodoTable.TABLE_TODO,
-                            TodoTable.COLUMN_ID + "=" + id
+                    rowsDeleted = sqlDB.delete(StockTable.TABLE_TODO,
+                            StockTable.COLUMN_ID + "=" + id
                                     + " and " + selection,
                             selectionArgs);
                 }
@@ -144,7 +144,7 @@ public class MyTodoContentProvider extends ContentProvider {
         int rowsUpdated = 0;
         switch (uriType) {
             case TODOS:
-                rowsUpdated = sqlDB.update(TodoTable.TABLE_TODO,
+                rowsUpdated = sqlDB.update(StockTable.TABLE_TODO,
                         values,
                         selection,
                         selectionArgs);
@@ -152,14 +152,14 @@ public class MyTodoContentProvider extends ContentProvider {
             case TODO_ID:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    rowsUpdated = sqlDB.update(TodoTable.TABLE_TODO,
+                    rowsUpdated = sqlDB.update(StockTable.TABLE_TODO,
                             values,
-                            TodoTable.COLUMN_ID + "=" + id,
+                            StockTable.COLUMN_ID + "=" + id,
                             null);
                 } else {
-                    rowsUpdated = sqlDB.update(TodoTable.TABLE_TODO,
+                    rowsUpdated = sqlDB.update(StockTable.TABLE_TODO,
                             values,
-                            TodoTable.COLUMN_ID + "=" + id
+                            StockTable.COLUMN_ID + "=" + id
                                     + " and "
                                     + selection,
                             selectionArgs);
@@ -173,9 +173,9 @@ public class MyTodoContentProvider extends ContentProvider {
     }
 
     private void checkColumns(String[] projection) {
-        String[] available = { TodoTable.COLUMN_CATEGORY,
-                TodoTable.COLUMN_SUMMARY, TodoTable.COLUMN_DESCRIPTION,
-                TodoTable.COLUMN_ID };
+        String[] available = { StockTable.COLUMN_CATEGORY,
+                StockTable.COLUMN_TICKER, StockTable.COLUMN_DESCRIPTION,
+                StockTable.COLUMN_ID };
         if (projection != null) {
             HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
             HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));

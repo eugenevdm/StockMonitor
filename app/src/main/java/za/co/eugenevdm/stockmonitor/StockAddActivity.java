@@ -16,13 +16,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 /*
- * TodoDetailActivity allows to enter a new stock item 
- * or to change an existing
+ * StockAddActivity allows to add a new stock item or to change an existing stock
  */
-public class TodoDetailActivity extends Activity {
-    private Spinner mCategory;
-    private EditText mTitleText;
-    private EditText mBodyText;
+public class StockAddActivity extends Activity {
+    private Spinner mCategorySpinner;
+    private EditText mTickerText;
+    private EditText mDescriptionText;
 
     private Uri stockUri;
 
@@ -31,28 +30,28 @@ public class TodoDetailActivity extends Activity {
         super.onCreate(bundle);
         setContentView(R.layout.stock_edit);
 
-        mCategory = (Spinner) findViewById(R.id.category);
-        mTitleText = (EditText) findViewById(R.id.stock_edit_summary);
-        mBodyText = (EditText) findViewById(R.id.stock_edit_description);
+        mCategorySpinner = (Spinner) findViewById(R.id.category);
+        mTickerText = (EditText) findViewById(R.id.stock_edit_ticker);
+        mDescriptionText = (EditText) findViewById(R.id.stock_edit_description);
         Button confirmButton = (Button) findViewById(R.id.stock_edit_button);
 
         Bundle extras = getIntent().getExtras();
 
         // check from the saved Instance
         stockUri = (bundle == null) ? null : (Uri) bundle
-                .getParcelable(MyTodoContentProvider.CONTENT_ITEM_TYPE);
+                .getParcelable(MyStockContentProvider.CONTENT_ITEM_TYPE);
 
         // Or passed from the other activity
         if (extras != null) {
             stockUri = extras
-                    .getParcelable(MyTodoContentProvider.CONTENT_ITEM_TYPE);
+                    .getParcelable(MyStockContentProvider.CONTENT_ITEM_TYPE);
 
             fillData(stockUri);
         }
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if (TextUtils.isEmpty(mTitleText.getText().toString())) {
+                if (TextUtils.isEmpty(mTickerText.getText().toString())) {
                     makeToast();
                 } else {
                     setResult(RESULT_OK);
@@ -64,27 +63,27 @@ public class TodoDetailActivity extends Activity {
     }
 
     private void fillData(Uri uri) {
-        String[] projection = { TodoTable.COLUMN_SUMMARY,
-                TodoTable.COLUMN_DESCRIPTION, TodoTable.COLUMN_CATEGORY };
+        String[] projection = { StockTable.COLUMN_TICKER,
+                StockTable.COLUMN_DESCRIPTION, StockTable.COLUMN_CATEGORY };
         Cursor cursor = getContentResolver().query(uri, projection, null, null,
                 null);
         if (cursor != null) {
             cursor.moveToFirst();
             String category = cursor.getString(cursor
-                    .getColumnIndexOrThrow(TodoTable.COLUMN_CATEGORY));
+                    .getColumnIndexOrThrow(StockTable.COLUMN_CATEGORY));
 
-            for (int i = 0; i < mCategory.getCount(); i++) {
+            for (int i = 0; i < mCategorySpinner.getCount(); i++) {
 
-                String s = (String) mCategory.getItemAtPosition(i);
+                String s = (String) mCategorySpinner.getItemAtPosition(i);
                 if (s.equalsIgnoreCase(category)) {
-                    mCategory.setSelection(i);
+                    mCategorySpinner.setSelection(i);
                 }
             }
 
-            mTitleText.setText(cursor.getString(cursor
-                    .getColumnIndexOrThrow(TodoTable.COLUMN_SUMMARY)));
-            mBodyText.setText(cursor.getString(cursor
-                    .getColumnIndexOrThrow(TodoTable.COLUMN_DESCRIPTION)));
+            mTickerText.setText(cursor.getString(cursor
+                    .getColumnIndexOrThrow(StockTable.COLUMN_TICKER)));
+            mDescriptionText.setText(cursor.getString(cursor
+                    .getColumnIndexOrThrow(StockTable.COLUMN_DESCRIPTION)));
 
             // always close the cursor
             cursor.close();
@@ -94,7 +93,7 @@ public class TodoDetailActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         saveState();
-        outState.putParcelable(MyTodoContentProvider.CONTENT_ITEM_TYPE, stockUri);
+        outState.putParcelable(MyStockContentProvider.CONTENT_ITEM_TYPE, stockUri);
     }
 
     @Override
@@ -104,25 +103,25 @@ public class TodoDetailActivity extends Activity {
     }
 
     private void saveState() {
-        String category = (String) mCategory.getSelectedItem();
-        String summary = mTitleText.getText().toString();
-        String description = mBodyText.getText().toString();
+        String category = (String) mCategorySpinner.getSelectedItem();
+        String ticker = mTickerText.getText().toString();
+        String description = mDescriptionText.getText().toString();
 
         // only save if either summary or description
         // is available
 
-        if (description.length() == 0 && summary.length() == 0) {
+        if (description.length() == 0 && ticker.length() == 0) {
             return;
         }
 
         ContentValues values = new ContentValues();
-        values.put(TodoTable.COLUMN_CATEGORY, category);
-        values.put(TodoTable.COLUMN_SUMMARY, summary);
-        values.put(TodoTable.COLUMN_DESCRIPTION, description);
+        values.put(StockTable.COLUMN_CATEGORY, category);
+        values.put(StockTable.COLUMN_TICKER, ticker);
+        values.put(StockTable.COLUMN_DESCRIPTION, description);
 
         if (stockUri == null) {
             // New stock
-            stockUri = getContentResolver().insert(MyTodoContentProvider.CONTENT_URI, values);
+            stockUri = getContentResolver().insert(MyStockContentProvider.CONTENT_URI, values);
         } else {
             // Update stock
             getContentResolver().update(stockUri, values, null, null);
@@ -130,7 +129,7 @@ public class TodoDetailActivity extends Activity {
     }
 
     private void makeToast() {
-        Toast.makeText(TodoDetailActivity.this, "Please maintain a summary",
+        Toast.makeText(StockAddActivity.this, "Please add a ticker",
                 Toast.LENGTH_LONG).show();
     }
 } 

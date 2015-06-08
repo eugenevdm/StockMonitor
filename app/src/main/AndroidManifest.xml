@@ -29,6 +29,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StockListActivity" />
         </activity>
+        <activity
+            android:name=".StockAddActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
     </application>
 
     <!-- Permissions -->

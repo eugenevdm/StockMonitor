@@ -1,22 +1,18 @@
 package za.co.eugenevdm.stockmonitor;
 
-import android.app.ProgressDialog;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Activity;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.StringRequest;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.List;
-
-import za.co.eugenevdm.stockmonitor.engine.Utils;
-
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.SimpleCursorAdapter;
+import za.co.eugenevdm.stockmonitor.MyStockContentProvider;
+import za.co.eugenevdm.stockmonitor.StockTable;
 
 /**
  * An activity representing a list of Stocks. This activity
@@ -35,7 +31,8 @@ import za.co.eugenevdm.stockmonitor.engine.Utils;
  * to listen for item selections.
  */
 public class StockListActivity extends Activity
-        implements StockListFragment.Callbacks {
+        implements StockListFragment.Callbacks,
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = "sm_StockListActivity";
     /**
@@ -43,6 +40,13 @@ public class StockListActivity extends Activity
      * device.
      */
     private boolean mTwoPane;
+
+    // Custom definitions
+    private static final int ACTIVITY_CREATE = 0;
+    private static final int ACTIVITY_EDIT = 1;
+    private static final int DELETE_ID = Menu.FIRST + 1;
+    // private Cursor cursor;
+    private SimpleCursorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +70,20 @@ public class StockListActivity extends Activity
         // TODO: If exposing deep links into your app, handle intents here.
     }
 
+    private void fillData() {
 
+        // Fields from the database (projection)
+        // Must include the _id column for the adapter to work
+        String[] from = new String[] { StockTable.COLUMN_TICKER };
+        // Fields on the UI to which we map
+        //int[] to = new int[] { R.id.label };
+        int[] to = new int[] { R.id.name };
+
+        getLoaderManager().initLoader(0, null, this);
+        adapter = new SimpleCursorAdapter(this, R.layout.list_item, null, from, to, 0);
+
+        setListAdapter(adapter);
+    }
 
     /**
      * Callback method from {@link StockListFragment.Callbacks}
@@ -94,4 +111,47 @@ public class StockListActivity extends Activity
             startActivity(detailIntent);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.listmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.insert:
+                addStock();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void addStock() {
+        Intent i = new Intent(this, StockAddActivity.class);
+        startActivity(i);
+    }
+
+    // creates a new loader after the initLoader () call
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] projection = { StockTable.COLUMN_ID, StockTable.COLUMN_TICKER };
+        CursorLoader cursorLoader = new CursorLoader(this,
+                MyStockContentProvider.CONTENT_URI, projection, null, null, null);
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // data is not available anymore, delete reference
+        adapter.swapCursor(null);
+    }
+
 }
