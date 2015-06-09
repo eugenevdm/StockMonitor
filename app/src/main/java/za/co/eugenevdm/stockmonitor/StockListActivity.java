@@ -36,6 +36,7 @@ public class StockListActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_stock_list);
 
         if (findViewById(R.id.stock_detail_container) != null) {
@@ -91,7 +92,7 @@ public class StockListActivity extends Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.insert:
+            case R.id.add:
                 addStock();
                 return true;
         }

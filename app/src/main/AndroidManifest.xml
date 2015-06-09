@@ -33,14 +33,17 @@
             android:name=".StockAddActivity"
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
+
+        <!-- Content Provider -->
+
+        <provider
+            android:name=".StockContentProvider"
+            android:authorities="za.co.eugenevdm.stockmonitor" >
+        </provider>
+
+
     </application>
 
-    <!-- Content Provider -->
-
-    <provider
-        android:name=".StockContentProvider"
-        android:authorities="za.co.eugenevdm.stockmonitor" >
-    </provider>
 
     <!-- Permissions -->
 

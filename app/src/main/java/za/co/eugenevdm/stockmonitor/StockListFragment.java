@@ -2,29 +2,18 @@ package za.co.eugenevdm.stockmonitor;
 
 import android.app.Activity;
 import android.app.LoaderManager;
-import android.app.ProgressDialog;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.ListFragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.StringRequest;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import za.co.eugenevdm.stockmonitor.engine.Utils;
 
 /**
  * A list fragment representing a list of Stocks. This fragment
@@ -84,28 +73,17 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
     public StockListFragment() {
     }
 
-    // Custom definitions
-    private static final int ACTIVITY_CREATE = 0;
-    private static final int ACTIVITY_EDIT = 1;
-    private static final int DELETE_ID = Menu.FIRST + 1;
-
-    private SimpleCursorAdapter adapter2;
+    private SimpleCursorAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //adapter2 = new CustomListAdapter(getActivity(), stocksList);
-        //setListAdapter(adapter2);
-
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         fillData();
-        //setHasOptionsMenu(true);
-        //registerForContextMenu(getListView());
     }
 
     @Override
@@ -137,15 +115,6 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
 
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sDummyCallbacks;
-    }
-
-    @Override
-    public void onListItemClick(ListView listView, View view, int position, long id) {
-        super.onListItemClick(listView, view, position, id);
-
-        // Notify the active callbacks interface (the activity, if the
-        // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(Stock.ITEMS.get(position).id);
     }
 
     @Override
@@ -181,38 +150,50 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
 
     // Customisation
 
+    // Opens the Detail activity if an entry is clicked
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Intent i = new Intent(getActivity(), StockAddActivity.class);
+        Uri stockUri = Uri.parse(StockContentProvider.CONTENT_URI + "/" + id);
+        Log.d(TAG, "List item Uri clicked: " + stockUri);
+        i.putExtra(StockContentProvider.CONTENT_ITEM_TYPE, stockUri);
+        startActivity(i);
+    }
+
     // creates a new loader after the initLoader () call
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = {StockDbTable.COLUMN_ID, StockDbTable.COLUMN_TICKER};
+        String[] projection = {StockDbTable.COLUMN_ID, StockDbTable.COLUMN_TICKER, StockDbTable.COLUMN_DESCRIPTION};
         return new CursorLoader(getActivity(),
                 StockContentProvider.CONTENT_URI, projection, null, null, null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        adapter2.swapCursor(data);
+        adapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         // data is not available anymore, delete reference
-        adapter2.swapCursor(null);
+        adapter.swapCursor(null);
     }
 
     private void fillData() {
 
         // Fields from the database (projection)
         // Must include the _id column for the adapter to work
-        String[] from = new String[]{StockDbTable.COLUMN_TICKER};
+        String[] from = new String[]{StockDbTable.COLUMN_TICKER, StockDbTable.COLUMN_DESCRIPTION};
+        //String[] from = new String[]{StockDbTable.COLUMN_TICKER};
         // Fields on the UI to which we map
-        //int[] to = new int[] { R.id.label };
-        int[] to = new int[]{R.id.name};
+        //int[] to = new int[] { R.id.name };
+        int[] to = new int[]{R.id.name, R.id.price};
 
         getLoaderManager().initLoader(0, null, this);
-        adapter2 = new SimpleCursorAdapter(getActivity(), R.layout.list_item, null, from, to, 0);
+        adapter = new SimpleCursorAdapter(getActivity(), R.layout.list_item, null, from, to, 0);
 
-        setListAdapter(adapter2);
+        setListAdapter(adapter);
     }
 
 }

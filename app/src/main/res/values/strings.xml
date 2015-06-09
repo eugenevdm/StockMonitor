@@ -7,7 +7,7 @@
     <string name="menu_delete">Delete Stock</string>
     <string name="stock_summary">Summary</string>
     <string name="stock_description">Delete Stock</string>
-    <string name="stock_edit_summary">Summary</string>
+    <string name="stock_edit_ticker">Ticker</string>
     <string name="stock_edit_description">Description</string>
     <string name="stock_edit_confirm">Confirm</string>
 </resources>
