@@ -1,11 +1,20 @@
 package za.co.eugenevdm.stockmonitor;
 
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.app.ProgressDialog;
+import android.content.CursorLoader;
+import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.app.ListFragment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -29,7 +38,7 @@ import za.co.eugenevdm.stockmonitor.engine.Utils;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class StockListFragment extends ListFragment {
+public class StockListFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -58,7 +67,7 @@ public class StockListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(String id);
+        void onItemSelected(String id);
     }
 
     /**
@@ -80,6 +89,14 @@ public class StockListFragment extends ListFragment {
 
     private List<Stock> stocksList = new ArrayList<Stock>();
     private CustomListAdapter adapter;
+
+    // Custom definitions
+    private static final int ACTIVITY_CREATE = 0;
+    private static final int ACTIVITY_EDIT = 1;
+    private static final int DELETE_ID = Menu.FIRST + 1;
+    // TODO Investigate Vogella example to find code below
+    // private Cursor cursor;
+    private SimpleCursorAdapter adapter2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,11 +123,12 @@ public class StockListFragment extends ListFragment {
                 // Google returns "// [ { "id": ... } ]".
                 // We need to turn them into "[ { "id": ... } ]".
                 // http://stackoverflow.com/questions/15158916/convert-json-array-to-a-java-list-object
-                TypeToken<List<Stock>> token = new TypeToken<List<Stock>>() {};
+                TypeToken<List<Stock>> token = new TypeToken<List<Stock>>() {
+                };
                 List<Stock> serverStockList = gson.fromJson(respond, token.getType());
                 pDialog.hide();
 
-                for(Stock serverStock : serverStockList) {
+                for (Stock serverStock : serverStockList) {
                     //String currencySymbol;
                     String currency;
                     String ex = serverStock.getExchange();
@@ -151,7 +169,7 @@ public class StockListFragment extends ListFragment {
                             s.getCp()));
                 }
 
-                adapter.notifyDataSetChanged();
+                adapter.notifyDat aSetChanged();
 
             }
         }, new Response.ErrorListener() {
@@ -236,6 +254,43 @@ public class StockListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    // Customisation
+
+    // creates a new loader after the initLoader () call
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] projection = {StockTable.COLUMN_ID, StockTable.COLUMN_TICKER};
+        CursorLoader cursorLoader = new CursorLoader(getActivity(),
+                MyStockContentProvider.CONTENT_URI, projection, null, null, null);
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter2.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        // data is not available anymore, delete reference
+        adapter2.swapCursor(null);
+    }
+
+    private void fillData() {
+
+        // Fields from the database (projection)
+        // Must include the _id column for the adapter to work
+        String[] from = new String[]{StockTable.COLUMN_TICKER};
+        // Fields on the UI to which we map
+        //int[] to = new int[] { R.id.label };
+        int[] to = new int[]{R.id.name};
+
+        getLoaderManager().initLoader(0, null, this);
+        adapter2 = new SimpleCursorAdapter(getActivity(), R.layout.list_item, null, from, to, 0);
+
+        setListAdapter(adapter);
     }
 
 }
