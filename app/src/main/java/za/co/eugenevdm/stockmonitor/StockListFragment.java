@@ -169,7 +169,7 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
                             s.getCp()));
                 }
 
-                adapter.notifyDat aSetChanged();
+                adapter.notifyDataSetChanged();
 
             }
         }, new Response.ErrorListener() {
