@@ -4,14 +4,11 @@ import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.ProgressDialog;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.app.ListFragment;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -87,94 +84,28 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
     public StockListFragment() {
     }
 
-    private List<Stock> stocksList = new ArrayList<>();
-    private CustomListAdapter adapter;
-
     // Custom definitions
     private static final int ACTIVITY_CREATE = 0;
     private static final int ACTIVITY_EDIT = 1;
     private static final int DELETE_ID = Menu.FIRST + 1;
-    // TODO Investigate Vogella example to find code below
-    // private Cursor cursor;
+
     private SimpleCursorAdapter adapter2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new CustomListAdapter(getActivity(), stocksList);
-        setListAdapter(adapter);
+        //adapter2 = new CustomListAdapter(getActivity(), stocksList);
+        //setListAdapter(adapter2);
 
-        String tag_string_req = "string_req";
-        String stocks = "JSE:BAT,JSE:SAB,NASDAQ:TSLA,JSE:SHF,NASDAQ:MSFT,NYSE:ORCL";
-        String url = "https://www.google.com/finance/info?infotype=infoquoteall&q=" + stocks;
-        final Gson gson = new Gson();
+    }
 
-        final ProgressDialog pDialog = new ProgressDialog(getActivity());
-        pDialog.setMessage("Updating...");
-        pDialog.show();
-
-        StringRequest strReq = new StringRequest(Request.Method.GET,
-                url, new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                final String respond = Utils.GoogleRespondToJSON(response);
-                // Google returns "// [ { "id": ... } ]".
-                // We need to turn them into "[ { "id": ... } ]".
-                // http://stackoverflow.com/questions/15158916/convert-json-array-to-a-java-list-object
-                TypeToken<List<Stock>> token = new TypeToken<List<Stock>>() {
-                };
-                List<Stock> serverStockList = gson.fromJson(respond, token.getType());
-                pDialog.hide();
-
-                for (Stock serverStock : serverStockList) {
-                    String ex = serverStock.getExchange();
-                    String p = serverStock.getPrice();
-                    if (ex.equals("JSE")) {
-                        // TODO Migrate to object method
-                        p = p.replace(",", "");
-                        float f = Float.parseFloat(p);
-                        f = f / 100;
-                        p = Float.toString(f);
-                        serverStock.setPrice(p);
-                    }
-                    Stock s = new Stock();
-                    s.setGoogleId(serverStock.getGoogleId());
-                    s.setName(serverStock.getName());
-                    s.setExchange(serverStock.getExchange());
-                    s.setTicker(serverStock.getTicker());
-                    // Add the currency symbol to the price
-                    s.setPrice(s.getCurrencySymbol() + serverStock.getPrice());
-                    s.setPe(serverStock.getPe());
-                    s.setMarketCap(serverStock.getMarketCap());
-                    s.setCp(serverStock.getCp());
-                    stocksList.add(s); // This is used by the listview
-                    Stock.addItem(new
-                            Stock.StockItem(s.getGoogleId(),
-                            s.getName(),
-                            s.getExchange(),
-                            s.getTicker(),
-                            s.getPrice(),
-                            s.getPe(),
-                            s.getMarketCap(),
-                            s.getCp()));
-                }
-
-                adapter.notifyDataSetChanged();
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                pDialog.hide();
-            }
-        });
-        // Add request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        fillData();
+        //setHasOptionsMenu(true);
+        //registerForContextMenu(getListView());
     }
 
     @Override
@@ -253,9 +184,9 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
     // creates a new loader after the initLoader () call
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = {StockTable.COLUMN_ID, StockTable.COLUMN_TICKER};
+        String[] projection = {StockDbTable.COLUMN_ID, StockDbTable.COLUMN_TICKER};
         return new CursorLoader(getActivity(),
-                MyStockContentProvider.CONTENT_URI, projection, null, null, null);
+                StockContentProvider.CONTENT_URI, projection, null, null, null);
     }
 
     @Override
@@ -273,7 +204,7 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
 
         // Fields from the database (projection)
         // Must include the _id column for the adapter to work
-        String[] from = new String[]{StockTable.COLUMN_TICKER};
+        String[] from = new String[]{StockDbTable.COLUMN_TICKER};
         // Fields on the UI to which we map
         //int[] to = new int[] { R.id.label };
         int[] to = new int[]{R.id.name};
@@ -281,7 +212,7 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
         getLoaderManager().initLoader(0, null, this);
         adapter2 = new SimpleCursorAdapter(getActivity(), R.layout.list_item, null, from, to, 0);
 
-        setListAdapter(adapter);
+        setListAdapter(adapter2);
     }
 
 }

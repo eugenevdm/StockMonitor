@@ -385,7 +385,7 @@ public class Stock {
         this.timestamp = timestamp;
     }
 
-    // I didn't make this construcotr private. As I would like to make user able
+    // I didn't make this constructor private. As I would like to make user able
     // to construct StockObject either through this constructor or Builder.
     public Stock(Stock stock) {
         this.code = stock.code;
@@ -642,7 +642,6 @@ public class Stock {
     private final int thirdBuyQuantity;
     private final double thirdSellPrice;
     private final int thirdSellQuantity;
-    // milliseconds. As timestamp in Java system always interpreted as
-    // milliseconds.
+    // milliseconds. As timestamp in Java system always interpreted as milliseconds.
     private final long timestamp;
 }

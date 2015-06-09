@@ -6,18 +6,18 @@ package za.co.eugenevdm.stockmonitor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class StockTable {
+public class StockDbTable {
 
     // Database table
-    public static final String TABLE_TODO = "todo";
+    public static final String TABLE_STOCK = "stock";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_CATEGORY = "category";
-    public static final String COLUMN_TICKER = "summary";
+    public static final String COLUMN_TICKER = "ticker";
     public static final String COLUMN_DESCRIPTION = "description";
 
     // Database creation SQL statement
     private static final String DATABASE_CREATE = "create table "
-            + TABLE_TODO
+            + TABLE_STOCK
             + "("
             + COLUMN_ID + " integer primary key autoincrement, "
             + COLUMN_CATEGORY + " text not null, "
@@ -32,10 +32,10 @@ public class StockTable {
 
     public static void onUpgrade(SQLiteDatabase database, int oldVersion,
                                  int newVersion) {
-        Log.w(StockTable.class.getName(), "Upgrading database from version "
+        Log.w(StockDbTable.class.getName(), "Upgrading database from version "
                 + oldVersion + " to " + newVersion
                 + ", which will destroy all old data");
-        database.execSQL("DROP TABLE IF EXISTS " + TABLE_TODO);
+        database.execSQL("DROP TABLE IF EXISTS " + TABLE_STOCK);
         onCreate(database);
     }
 }

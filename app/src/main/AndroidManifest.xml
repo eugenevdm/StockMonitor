@@ -35,6 +35,13 @@
         </activity>
     </application>
 
+    <!-- Content Provider -->
+
+    <provider
+        android:name=".StockContentProvider"
+        android:authorities="za.co.eugenevdm.stockmonitor" >
+    </provider>
+
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />

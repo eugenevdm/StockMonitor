@@ -39,12 +39,12 @@ public class StockAddActivity extends Activity {
 
         // check from the saved Instance
         stockUri = (bundle == null) ? null : (Uri) bundle
-                .getParcelable(MyStockContentProvider.CONTENT_ITEM_TYPE);
+                .getParcelable(StockContentProvider.CONTENT_ITEM_TYPE);
 
         // Or passed from the other activity
         if (extras != null) {
             stockUri = extras
-                    .getParcelable(MyStockContentProvider.CONTENT_ITEM_TYPE);
+                    .getParcelable(StockContentProvider.CONTENT_ITEM_TYPE);
 
             fillData(stockUri);
         }
@@ -63,14 +63,14 @@ public class StockAddActivity extends Activity {
     }
 
     private void fillData(Uri uri) {
-        String[] projection = { StockTable.COLUMN_TICKER,
-                StockTable.COLUMN_DESCRIPTION, StockTable.COLUMN_CATEGORY };
+        String[] projection = { StockDbTable.COLUMN_TICKER,
+                StockDbTable.COLUMN_DESCRIPTION, StockDbTable.COLUMN_CATEGORY };
         Cursor cursor = getContentResolver().query(uri, projection, null, null,
                 null);
         if (cursor != null) {
             cursor.moveToFirst();
             String category = cursor.getString(cursor
-                    .getColumnIndexOrThrow(StockTable.COLUMN_CATEGORY));
+                    .getColumnIndexOrThrow(StockDbTable.COLUMN_CATEGORY));
 
             for (int i = 0; i < mCategorySpinner.getCount(); i++) {
 
@@ -81,9 +81,9 @@ public class StockAddActivity extends Activity {
             }
 
             mTickerText.setText(cursor.getString(cursor
-                    .getColumnIndexOrThrow(StockTable.COLUMN_TICKER)));
+                    .getColumnIndexOrThrow(StockDbTable.COLUMN_TICKER)));
             mDescriptionText.setText(cursor.getString(cursor
-                    .getColumnIndexOrThrow(StockTable.COLUMN_DESCRIPTION)));
+                    .getColumnIndexOrThrow(StockDbTable.COLUMN_DESCRIPTION)));
 
             // always close the cursor
             cursor.close();
@@ -93,7 +93,7 @@ public class StockAddActivity extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         saveState();
-        outState.putParcelable(MyStockContentProvider.CONTENT_ITEM_TYPE, stockUri);
+        outState.putParcelable(StockContentProvider.CONTENT_ITEM_TYPE, stockUri);
     }
 
     @Override
@@ -115,13 +115,13 @@ public class StockAddActivity extends Activity {
         }
 
         ContentValues values = new ContentValues();
-        values.put(StockTable.COLUMN_CATEGORY, category);
-        values.put(StockTable.COLUMN_TICKER, ticker);
-        values.put(StockTable.COLUMN_DESCRIPTION, description);
+        values.put(StockDbTable.COLUMN_CATEGORY, category);
+        values.put(StockDbTable.COLUMN_TICKER, ticker);
+        values.put(StockDbTable.COLUMN_DESCRIPTION, description);
 
         if (stockUri == null) {
             // New stock
-            stockUri = getContentResolver().insert(MyStockContentProvider.CONTENT_URI, values);
+            stockUri = getContentResolver().insert(StockContentProvider.CONTENT_URI, values);
         } else {
             // Update stock
             getContentResolver().update(stockUri, values, null, null);

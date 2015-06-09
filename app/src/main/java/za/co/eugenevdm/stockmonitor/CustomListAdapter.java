@@ -2,9 +2,6 @@ package za.co.eugenevdm.stockmonitor;
 
 /**
  * List of stocks
- *
- * TODO View holder pattern
- *
  */
 
 import java.util.List;
