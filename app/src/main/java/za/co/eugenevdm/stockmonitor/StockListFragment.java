@@ -87,7 +87,7 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
     public StockListFragment() {
     }
 
-    private List<Stock> stocksList = new ArrayList<Stock>();
+    private List<Stock> stocksList = new ArrayList<>();
     private CustomListAdapter adapter;
 
     // Custom definitions
@@ -129,22 +129,15 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
                 pDialog.hide();
 
                 for (Stock serverStock : serverStockList) {
-                    //String currencySymbol;
-                    String currency;
                     String ex = serverStock.getExchange();
                     String p = serverStock.getPrice();
-                    //currencySymbol = serverStock.getCurrencySymbol();
                     if (ex.equals("JSE")) {
-                        // TODO Migrate to object method
-                        currency = "R ";
                         // TODO Migrate to object method
                         p = p.replace(",", "");
                         float f = Float.parseFloat(p);
                         f = f / 100;
                         p = Float.toString(f);
                         serverStock.setPrice(p);
-                    } else {
-                        currency = "$";
                     }
                     Stock s = new Stock();
                     s.setGoogleId(serverStock.getGoogleId());
@@ -155,9 +148,8 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
                     s.setPrice(s.getCurrencySymbol() + serverStock.getPrice());
                     s.setPe(serverStock.getPe());
                     s.setMarketCap(serverStock.getMarketCap());
-                    Float cp = serverStock.getCp();
                     s.setCp(serverStock.getCp());
-                    stocksList.add(s);
+                    stocksList.add(s); // This is used by the listview
                     Stock.addItem(new
                             Stock.StockItem(s.getGoogleId(),
                             s.getName(),
@@ -262,9 +254,8 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] projection = {StockTable.COLUMN_ID, StockTable.COLUMN_TICKER};
-        CursorLoader cursorLoader = new CursorLoader(getActivity(),
+        return new CursorLoader(getActivity(),
                 MyStockContentProvider.CONTENT_URI, projection, null, null, null);
-        return cursorLoader;
     }
 
     @Override
