@@ -1,5 +1,5 @@
 
-After refresh:
+After refresh:  
 
 https://www.google.com/finance/info?infotype=infoquoteall&q=jse:bat
 

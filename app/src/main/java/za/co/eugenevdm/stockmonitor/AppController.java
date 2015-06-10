@@ -2,7 +2,7 @@ package za.co.eugenevdm.stockmonitor;
 
 import android.app.Application;
 import android.text.TextUtils;
- 
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
