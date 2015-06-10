@@ -1,7 +1,7 @@
 Documentation
 
-Update from laptop
- 
+This was done on my PC at home.
+This line comes from work PC.
 
 The name of the app, Stock Monitor, changes to "Share Monitor" when used in ZA locale!
 

@@ -20,9 +20,9 @@ public class CustomListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<Stock> stockItems;
 
-    public CustomListAdapter(Activity activity, List<Stock> stockItems) {
+    public CustomListAdapter(Activity activity, List<Stock> movieItems) {
         this.activity = activity;
-        this.stockItems = stockItems;
+        this.stockItems = movieItems;
     }
 
     @Override
