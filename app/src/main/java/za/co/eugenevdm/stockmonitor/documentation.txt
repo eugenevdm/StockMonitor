@@ -1,0 +1,114 @@
+Documentation
+
+Update from laptop
+
+
+The name of the app, Stock Monitor, changes to "Share Monitor" when used in ZA locale!
+
+Help Documentation Included! Get definitions of common stock exchange terms!
+
+Market capitalization
+
+The total value of a company in the stock market. It is generally calculated by multiplying the shares outstanding by the current share price.
+
+Comprehensive example of volley and listview
+
+http://www.androidhive.info/2014/07/android-custom-listview-with-image-and-text-using-volley/
+
+How to use callbacks - in the end I did not use
+
+http://stackoverflow.com/questions/28120029/how-can-i-return-value-from-function-onresponse-of-volley
+
+Original examples that got me going with Volley
+
+http://www.survivingwithandroid.com/2013/11/android-volley-dynamic-listview.html
+http://www.androidhive.info/2014/05/android-working-with-volley-library-1/
+
+This is how Google Finance returns an array of stocks, e.g.:
+
+JSE:BAT, JSE:SAB
+
+https://www.google.com/finance/info?infotype=infoquoteall&q=JSE%3ABAT,JSE%3ASAB
+
+
+    06-02 21:08:24.341
+    24907-24907/za.co.eugenevdm.stockmonitor D/sm_StockDetailFragment﹕
+    [
+    {
+    id=1019083932318899,
+    t=BAT,
+    e=JSE,
+    l=10,682.00,
+    l_fix=10682.00,
+    l_cur=ZAC10,682.00,
+    s=0,
+    ltt=5:00PM GMT 2,
+    lt=Jun 2, 5:00PM GMT 2,
+    lt_dts=2015-06-02T17:00:22Z,
+    c= 182.00,
+    c_fix=182.00,
+    cp=1.73,
+    cp_fix=1.73,
+    ccol=chg,
+    pcls_fix=10500,
+    eo=,
+    delay=15,
+    op=10,500.00,
+    hi=10,711.00,
+    lo=10,250.00,
+    vo=485,561.00,
+    avvo=642,997.00,
+    hi52=11,665.00,                 // 52 week high
+    lo52=5,600.00,                  // 52 week low
+    mc=55.17B,                      // Market Cap
+    pe=20.39,                       // PE
+    fwpe=,
+    beta=,
+    eps=5.24,
+    shares=516.49M,
+    inst_own=,
+    name=Brait SE,
+    type=Company},
+
+    {
+    id=918586879122938,
+    t=SAB,
+    e=JSE,
+    l=64,859.00,
+    l_fix=64859.00,
+    l_cur=ZAC64,859.00,
+    s=0,
+    ltt=5:00PM GMT 2,
+    lt=Jun 2, 5:00PM GMT 2,
+    lt_dts=2015-06-02T17:00:25Z,
+    c= 324.00,
+    c_fix=324.00,
+    cp=0.50,
+    cp_fix=0.50,
+    ccol=chg,
+    pcls_fix=64535,
+    eo=,
+    delay=15,
+    op=64,100.00,
+    hi=64,859.00,
+    lo=63,368.00,
+    vo=955,935.00,
+    avvo=819,223.00,
+    hi52=68,907.00,
+    lo52=55,403.00,
+    mc=1.05T,
+    pe=26.01,
+    fwpe=,
+    beta=,
+    eps=24.94,
+    shares=1.62B,
+    inst_own=,
+    name=SABMiller plc (S. Africa),
+    type=Company
+    }
+    ]
+
+
+
+
+

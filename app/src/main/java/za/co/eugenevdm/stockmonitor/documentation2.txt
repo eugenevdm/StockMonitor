@@ -1,0 +1,110 @@
+
+After refresh:
+
+https://www.google.com/finance/info?infotype=infoquoteall&q=jse:bat
+
+// [
+{
+"id": "1019083932318899"
+,"t" : "BAT"
+,"e" : "JSE"
+,"l" : "10,426.00"
+,"l_fix" : "10426.00"
+,"l_cur" : "ZAC10,426.00"
+,"s": "0"
+,"ltt":"9:00AM GMT+2"
+,"lt" : "Jun 5, 9:00AM GMT+2"
+,"lt_dts" : "2015-06-05T09:00:02Z"
+,"c" : "-148.00"                      // change in currency (ZAC)
+,"c_fix" : "-148.00"
+,"cp" : "-1.40"                       // change percentage
+,"cp_fix" : "-1.40"
+,"ccol" : "chr"
+,"pcls_fix" : "10574"
+,"eo" : ""
+,"delay": "15"
+,"op" : "10,426.00"
+,"hi" : "10,426.00"
+,"lo" : "10,426.00"
+,"vo" : "1,004.00"
+,"avvo" : "660,390.00"
+,"hi52" : "11,665.00"
+,"lo52" : "5,816.00"
+,"mc" : "53.85B"
+,"pe" : "19.90"
+,"fwpe" : ""
+,"beta" : ""
+,"eps" : "5.24"
+,"shares" : "516.49M"
+,"inst_own" : ""
+,"name" : "Brait SE"
+,"type" : "Company"
+}
+]
+
+Here are basic values showed in a Google Search
+
+Open	
+10 426,00
+High	
+10 476,00
+Low	
+10 401,00
+Market cap	
+-
+P/E ratio (ttm)	
+19,92
+Dividend yield	
+0,31%
+
+
+This is a vanilla no results: (close of last day)
+
+Dividend yield	0,30%
+Brait
+JSE: BAT - 04 Jun 5:00 PM SAST
+
+First results:
+
+10 426,00Price decrease148,00 (1.40%)
+
+
+
+// [
+{
+"id": "1019083932318899"
+,"t" : "BAT"
+,"e" : "JSE"
+,"l" : "10,574.00"
+,"l_fix" : "10574.00"
+,"l_cur" : "ZAC10,574.00"
+,"s": "0"
+,"ltt":"5:00PM GMT+2"
+,"lt" : "Jun 4, 5:00PM GMT+2"
+,"lt_dts" : "2015-06-04T17:00:26Z"
+,"c" : "0.00"
+,"c_fix" : "0.00"
+,"cp" : "0.00"
+,"cp_fix" : "0.00"
+,"ccol" : "chb"
+,"pcls_fix" : "10574"
+,"eo" : ""
+,"delay": "15"
+,"op" : ""
+,"hi" : ""
+,"lo" : ""
+,"vo" : "0.00"
+,"avvo" : "660,390.00"
+,"hi52" : "11,665.00"
+,"lo52" : "5,816.00"
+,"mc" : "54.61B"
+,"pe" : "20.18"
+,"fwpe" : ""
+,"beta" : ""
+,"eps" : "5.24"
+,"shares" : "516.49M"
+,"inst_own" : ""
+,"name" : "Brait SE"
+,"type" : "Company"
+}
+]
