@@ -1,6 +1,6 @@
 Documentation
 
-
+This was done on my PC.
 
 The name of the app, Stock Monitor, changes to "Share Monitor" when used in ZA locale!
 
