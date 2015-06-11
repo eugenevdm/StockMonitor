@@ -14,16 +14,22 @@ public class StockDbTable {
     public static final String COLUMN_CATEGORY = "category";
     public static final String COLUMN_TICKER = "ticker";
     public static final String COLUMN_DESCRIPTION = "description";
+    public static final String COLUMN_LAST_PRICE = "lastPrice";
+    public static final String COLUMN_CHANGE_PRICE = "changePrice";
+    public static final String COLUMN_CHANGE_PRICE_PERCENTAGE = "changePricePercentage";
+
 
     // Database creation SQL statement
     private static final String DATABASE_CREATE = "create table "
             + TABLE_STOCK
             + "("
-            + COLUMN_ID + " integer primary key autoincrement, "
-            + COLUMN_CATEGORY + " text not null, "
-            + COLUMN_TICKER + " text not null,"
-            + COLUMN_DESCRIPTION
-            + " text not null"
+            + COLUMN_ID                         + " integer primary key autoincrement, "
+            + COLUMN_CATEGORY                   + " text, "
+            + COLUMN_TICKER                     + " text not null, "
+            + COLUMN_DESCRIPTION                + " text, "
+            + COLUMN_LAST_PRICE                 + " double not null, "
+            + COLUMN_CHANGE_PRICE               + " double not null, "
+            + COLUMN_CHANGE_PRICE_PERCENTAGE    + " double not null "
             + ");";
 
     public static void onCreate(SQLiteDatabase database) {

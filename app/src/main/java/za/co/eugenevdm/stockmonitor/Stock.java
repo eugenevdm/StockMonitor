@@ -185,6 +185,74 @@ public class Stock implements Serializable {
         return l;
     }
 
+    Stock getSingleStockFromGoogleJson(String symbol, Context ctx, final List<Stock> stocksList, final CustomListAdapter adapter) {
+        String tag_string_req = "string_req";
+
+        String url = "https://www.google.com/finance/info?infotype=infoquoteall&q=" + symbol;
+
+        final Gson gson = new Gson();
+
+        final ProgressDialog pDialog = new ProgressDialog(ctx);
+        pDialog.setMessage("Retrieving stock information...");
+        pDialog.show();
+
+        StringRequest strReq = new StringRequest(Request.Method.GET,
+                url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                final String respond = Utils.GoogleRespondToJSON(response);
+                TypeToken<List<Stock>> token = new TypeToken<List<Stock>>() {
+                };
+                List<Stock> serverStockList = gson.fromJson(respond, token.getType());
+                pDialog.hide();
+                for (Stock serverStock : serverStockList) {
+                    String ex = serverStock.getExchange();
+                    String p = serverStock.getPrice();
+                    if (ex.equals("JSE")) {
+                        p = p.replace(",", "");
+                        float f = Float.parseFloat(p);
+                        f = f / 100;
+                        p = Float.toString(f);
+                        serverStock.setPrice(p);
+                    }
+                    Stock s = new Stock();
+                    s.setGoogleId(serverStock.getGoogleId());
+                    s.setName(serverStock.getName());
+                    s.setExchange(serverStock.getExchange());
+                    s.setTicker(serverStock.getTicker());
+                    s.setPrice(s.getCurrencySymbol() + serverStock.getPrice());
+                    s.setPe(serverStock.getPe());
+                    s.setMarketCap(serverStock.getMarketCap());
+                    s.setCp(serverStock.getCp());
+                    stocksList.add(s); // This is used by the listview
+                    Stock.addItem(new
+                            Stock.StockItem(s.getGoogleId(),
+                            s.getName(),
+                            s.getExchange(),
+                            s.getTicker(),
+                            s.getPrice(),
+                            s.getPe(),
+                            s.getMarketCap(),
+                            s.getCp()));
+                }
+                //return stocksList;
+                //adapter.notifyDataSetChanged();
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                pDialog.hide();
+            }
+        });
+        // Add request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        return null;
+    }
+
     void getJsonStocksFromGoogle(Context ctx, final List<Stock> stocksList, final CustomListAdapter adapter) {
         String tag_string_req = "string_req";
         String stocks = "JSE:BAT,JSE:SAB,NASDAQ:TSLA,JSE:SHF,NASDAQ:MSFT,NYSE:ORCL";
@@ -244,6 +312,7 @@ public class Stock implements Serializable {
 
                 adapter.notifyDataSetChanged();
 
+                //return serverStockList;
             }
         }, new Response.ErrorListener() {
 

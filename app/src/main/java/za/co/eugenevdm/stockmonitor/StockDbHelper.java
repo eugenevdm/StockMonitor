@@ -7,12 +7,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class StockDatabaseHelper extends SQLiteOpenHelper {
+public class StockDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "stocktable.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
-    public StockDatabaseHelper(Context context) {
+    public StockDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

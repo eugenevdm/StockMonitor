@@ -19,7 +19,7 @@ import android.text.TextUtils;
 public class StockContentProvider extends ContentProvider {
 
     // database
-    private StockDatabaseHelper database;
+    private StockDbHelper database;
 
     // used for the UriMatcher
     private static final int STOCKS = 10;
@@ -44,7 +44,7 @@ public class StockContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        database = new StockDatabaseHelper(getContext());
+        database = new StockDbHelper(getContext());
         return false;
     }
 
@@ -173,9 +173,15 @@ public class StockContentProvider extends ContentProvider {
     }
 
     private void checkColumns(String[] projection) {
-        String[] available = { StockDbTable.COLUMN_CATEGORY,
-                StockDbTable.COLUMN_TICKER, StockDbTable.COLUMN_DESCRIPTION,
-                StockDbTable.COLUMN_ID };
+        String[] available = {
+                StockDbTable.COLUMN_ID,
+                StockDbTable.COLUMN_CATEGORY,
+                StockDbTable.COLUMN_TICKER,
+                StockDbTable.COLUMN_DESCRIPTION,
+                StockDbTable.COLUMN_LAST_PRICE,
+                StockDbTable.COLUMN_CHANGE_PRICE,
+                StockDbTable.COLUMN_CHANGE_PRICE_PERCENTAGE
+        };
         if (projection != null) {
             HashSet<String> requestedColumns = new HashSet<String>(Arrays.asList(projection));
             HashSet<String> availableColumns = new HashSet<String>(Arrays.asList(available));

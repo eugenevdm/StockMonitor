@@ -36,6 +36,36 @@
         android:imeOptions="actionNext" >
     </EditText>
 
+    <EditText
+        android:id="@+id/stock_edit_last_price"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="@string/stock_edit_last_price"
+        android:imeOptions="actionNext" >
+    </EditText>
+
+    <EditText
+        android:id="@+id/stock_edit_change_price"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="@string/stock_edit_change_price"
+        android:imeOptions="actionNext" >
+    </EditText>
+
+    <EditText
+        android:id="@+id/stock_edit_change_price_percentage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="@string/stock_edit_change_price_percentage"
+        android:imeOptions="actionNext" >
+    </EditText>
+
     <Button
         android:id="@+id/stock_edit_button"
         android:layout_width="wrap_content"

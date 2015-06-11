@@ -9,5 +9,10 @@
     <string name="stock_description">Delete Stock</string>
     <string name="stock_edit_ticker">Ticker</string>
     <string name="stock_edit_description">Description</string>
+
+    <string name="stock_edit_last_price">Last Price</string>
+    <string name="stock_edit_change_price">Change Price</string>
+    <string name="stock_edit_change_price_percentage">Change Price Percentage</string>
+
     <string name="stock_edit_confirm">Confirm</string>
 </resources>
