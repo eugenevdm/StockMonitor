@@ -1,5 +1,17 @@
 Documentation
 
+http://stackoverflow.com/questions/12955532/listview-and-customadapter-extending-simplecursoradapter
+
+adb commands
+./adb -s emulator-5554 shell
+sqlite3 /data/data/za.co.eugenevdm.stockmonitor/databases/stocktable.db
+
+
+Combine adapter and sqlite
+http://www.ahotbrew.com/android-listview-using-custom-adapter-and-sqlite/
+
+http://www.vogella.com/tutorials/AndroidSQLite/article.html
+
 This was done on my PC at home.
 This line comes from work PC.
 

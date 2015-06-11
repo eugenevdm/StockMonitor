@@ -187,9 +187,7 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
     }
 
     private void fillData() {
-
-        // Fields from the database (projection)
-        // Must include the _id column for the adapter to work
+        //Cursor data = null;
         String[] from = new String[]{
                 StockDbTable.COLUMN_DESCRIPTION,
                 StockDbTable.COLUMN_LAST_PRICE,
@@ -197,9 +195,6 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
                 StockDbTable.COLUMN_CHANGE_PRICE,
                 StockDbTable.COLUMN_CHANGE_PRICE_PERCENTAGE
         };
-        //String[] from = new String[]{StockDbTable.COLUMN_TICKER};
-        // Fields on the UI to which we map
-        //int[] to = new int[] { R.id.name };
         int[] to = new int[]{
                 R.id.description,
                 R.id.last_price,
@@ -207,12 +202,11 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
                 R.id.change_price,
                 R.id.change_price_percentage
         };
-
         getLoaderManager().initLoader(0, null, this);
-
-        adapter = new SimpleCursorAdapter(getActivity(), R.layout.list_item, null, from, to, 0);
-
+        adapter = new MySimpleCursorAdapter(getActivity(), R.layout.list_item, null, from, to);
+        //adapter = new MySimpleCursorAdapter(getActivity(), R.layout.list_item, null, from, to, 0);
         setListAdapter(adapter);
     }
+
 
 }

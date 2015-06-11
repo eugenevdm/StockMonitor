@@ -184,7 +184,7 @@ public class Stock implements Serializable {
         return l;
     }
 
-    void getJsonStocksFromGoogle(Context ctx, final List<Stock> stocksList, final CustomListAdapter adapter) {
+    void getJsonStocksFromGoogle(Context ctx, final List<Stock> stocksList, final MySimpleCursorAdapter adapter) {
         String tag_string_req = "string_req";
         String stocks = "JSE:BAT,JSE:SAB,NASDAQ:TSLA,JSE:SHF,NASDAQ:MSFT,NYSE:ORCL";
         String url = "https://www.google.com/finance/info?infotype=infoquoteall&q=" + stocks;

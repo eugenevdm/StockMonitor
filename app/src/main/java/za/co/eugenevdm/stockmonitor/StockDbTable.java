@@ -27,9 +27,9 @@ public class StockDbTable {
             + COLUMN_CATEGORY                   + " text, "
             + COLUMN_TICKER                     + " text, "
             + COLUMN_DESCRIPTION                + " text, "
-            + COLUMN_LAST_PRICE                 + " double, "
-            + COLUMN_CHANGE_PRICE               + " double, "
-            + COLUMN_CHANGE_PRICE_PERCENTAGE    + " double "
+            + COLUMN_LAST_PRICE                 + " real, "
+            + COLUMN_CHANGE_PRICE               + " real, "
+            + COLUMN_CHANGE_PRICE_PERCENTAGE    + " real "
             + ");";
 
     public static void onCreate(SQLiteDatabase database) {
