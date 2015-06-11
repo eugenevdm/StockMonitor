@@ -19,10 +19,6 @@ The name of the app, Stock Monitor, changes to "Share Monitor" when used in ZA l
 
 Help Documentation Included! Get definitions of common stock exchange terms!
 
-Market capitalization
-
-The total value of a company in the stock market. It is generally calculated by multiplying the shares outstanding by the current share price.
-
 Comprehensive example of volley and listview
 
 http://www.androidhive.info/2014/07/android-custom-listview-with-image-and-text-using-volley/

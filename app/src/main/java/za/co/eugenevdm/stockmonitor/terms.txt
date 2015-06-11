@@ -1,0 +1,7 @@
+Market capitalization
+
+The total value of a company in the stock market. It is generally calculated by multiplying the shares outstanding by the current share price.
+
+Latest dividend/dividend yield
+
+Latest dividend is dividend per share paid to shareholders in the most recent quarter. Dividend yield is the value of the latest dividend, multiplied by the number of times dividends are typically paid per year, divided by the stock price.
