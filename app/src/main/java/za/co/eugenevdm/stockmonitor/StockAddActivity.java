@@ -55,7 +55,8 @@ public class StockAddActivity extends Activity {
         mChangePrice = (EditText) findViewById(R.id.stock_edit_change_price);
         mChangePricePercentage = (EditText) findViewById(R.id.stock_edit_change_price_percentage);
 
-        Button confirmButton = (Button) findViewById(R.id.stock_edit_button);
+        Button updateButton = (Button) findViewById(R.id.stock_update_button);
+        Button saveButton = (Button) findViewById(R.id.stock_save_button);
 
         Bundle extras = getIntent().getExtras();
 
@@ -71,22 +72,34 @@ public class StockAddActivity extends Activity {
             fillData(stockUri);
         }
 
-        confirmButton.setOnClickListener(new View.OnClickListener() {
+        updateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (TextUtils.isEmpty(mTickerText.getText().toString())) {
                     makeToast();
                 } else {
-                    // Get essential stock data online
-                    getStockInfo(mTickerText.getText().toString());
+                    // Get essential stock data online asynchronously
+                    retrieveStockInfo(mTickerText.getText().toString());
+                    // Normally the activity would end here, but because it's async it's ended
+                    // in retrieveStockInfo onResponse
                     //setResult(RESULT_OK);
                     //finish();
                 }
             }
+        });
 
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                if (TextUtils.isEmpty(mTickerText.getText().toString())) {
+                    makeToast();
+                } else {
+                    setResult(RESULT_OK);
+                    finish();
+                }
+            }
         });
     }
 
-    void getStockInfo(String symbol) {
+    void retrieveStockInfo(String symbol) {
         String tag_string_req = "string_req";
 
         String url = "https://www.google.com/finance/info?infotype=infoquoteall&q=" + symbol;
@@ -109,39 +122,39 @@ public class StockAddActivity extends Activity {
                 pDialog.hide();
                 for (Stock serverStock : serverStockList) {
                     String ex = serverStock.getExchange();
-                    String p = serverStock.getPrice();
+                    String p = serverStock.getLastPrice();
                     if (ex.equals("JSE")) {
                         p = p.replace(",", "");
                         float f = Float.parseFloat(p);
                         f = f / 100;
                         p = Float.toString(f);
-                        serverStock.setPrice(p);
+                        serverStock.setLastPrice(p);
                     }
                     Stock s = new Stock();
                     s.setGoogleId(serverStock.getGoogleId());
                     s.setName(serverStock.getName());
                     s.setExchange(serverStock.getExchange());
                     s.setTicker(serverStock.getTicker());
-                    s.setPrice(s.getCurrencySymbol() + serverStock.getPrice());
+                    s.setLastPrice(s.getCurrencySymbol() + serverStock.getLastPrice());
                     s.setPe(serverStock.getPe());
                     s.setMarketCap(serverStock.getMarketCap());
-                    s.setCp(serverStock.getCp());
+                    s.setChangePrice(serverStock.getChangePrice());
+                    s.setChangePricePercentage(serverStock.getChangePricePercentage());
 
-                    mLastPrice.setText(s.getPrice());
-                    mChangePrice.setText(s.getCp().toString());
-                    mChangePricePercentage.setText(s.getCp().toString());
-
+                    mDescriptionText.setText(s.getName());
+                    mLastPrice.setText(s.getLastPrice());
+                    mChangePrice.setText(s.getChangePrice().toString());
+                    mChangePricePercentage.setText(s.getChangePricePercentage().toString());
                 }
-
-                //adapter.notifyDataSetChanged();
-
-
+                //setResult(RESULT_OK);
+                //finish();
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(StockAddActivity.this, "Unable to retrieve stock symbol", Toast.LENGTH_LONG).show();
+                VolleyLog.d(TAG, "Volley Error: " + error.getMessage());
                 pDialog.hide();
             }
         });
@@ -149,9 +162,16 @@ public class StockAddActivity extends Activity {
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
+    // SNOWBALL AddActivity PROJECTION
     private void fillData(Uri uri) {
-        String[] projection = {StockDbTable.COLUMN_TICKER,
-                StockDbTable.COLUMN_DESCRIPTION, StockDbTable.COLUMN_CATEGORY};
+        String[] projection = {
+                StockDbTable.COLUMN_TICKER,
+                StockDbTable.COLUMN_DESCRIPTION,
+                StockDbTable.COLUMN_CATEGORY,
+                StockDbTable.COLUMN_LAST_PRICE,
+                StockDbTable.COLUMN_CHANGE_PRICE,
+                StockDbTable.COLUMN_CHANGE_PRICE_PERCENTAGE
+        };
         Cursor cursor = getContentResolver().query(uri, projection, null, null,
                 null);
         if (cursor != null) {
@@ -171,6 +191,13 @@ public class StockAddActivity extends Activity {
                     .getColumnIndexOrThrow(StockDbTable.COLUMN_TICKER)));
             mDescriptionText.setText(cursor.getString(cursor
                     .getColumnIndexOrThrow(StockDbTable.COLUMN_DESCRIPTION)));
+            mLastPrice.setText(cursor.getString(cursor
+                    .getColumnIndexOrThrow(StockDbTable.COLUMN_LAST_PRICE)));
+            mChangePrice.setText(cursor.getString(cursor
+                    .getColumnIndexOrThrow(StockDbTable.COLUMN_CHANGE_PRICE)));
+            mChangePricePercentage.setText(cursor.getString(cursor
+                    .getColumnIndexOrThrow(StockDbTable.COLUMN_CHANGE_PRICE_PERCENTAGE)));
+
 
             // always close the cursor
             cursor.close();
@@ -190,9 +217,12 @@ public class StockAddActivity extends Activity {
     }
 
     private void saveState() {
-        String category = (String) mCategorySpinner.getSelectedItem();
-        String ticker = mTickerText.getText().toString();
-        String description = mDescriptionText.getText().toString();
+        String category                 = (String) mCategorySpinner.getSelectedItem();
+        String ticker                   = mTickerText.getText().toString();
+        String description              = mDescriptionText.getText().toString();
+        String last_price               = mLastPrice.getText().toString();
+        String change_price             = mChangePrice.getText().toString();
+        String change_price_percentage  = mChangePricePercentage.getText().toString();
 
         // only save if either summary or description
         // is available
@@ -205,6 +235,9 @@ public class StockAddActivity extends Activity {
         values.put(StockDbTable.COLUMN_CATEGORY, category);
         values.put(StockDbTable.COLUMN_TICKER, ticker);
         values.put(StockDbTable.COLUMN_DESCRIPTION, description);
+        values.put(StockDbTable.COLUMN_LAST_PRICE, last_price);
+        values.put(StockDbTable.COLUMN_CHANGE_PRICE, change_price);
+        values.put(StockDbTable.COLUMN_CHANGE_PRICE_PERCENTAGE, change_price_percentage);
 
         if (stockUri == null) {
             // New stock

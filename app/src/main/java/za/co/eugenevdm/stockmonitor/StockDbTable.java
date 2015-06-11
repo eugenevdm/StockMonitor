@@ -25,11 +25,11 @@ public class StockDbTable {
             + "("
             + COLUMN_ID                         + " integer primary key autoincrement, "
             + COLUMN_CATEGORY                   + " text, "
-            + COLUMN_TICKER                     + " text not null, "
+            + COLUMN_TICKER                     + " text, "
             + COLUMN_DESCRIPTION                + " text, "
-            + COLUMN_LAST_PRICE                 + " double not null, "
-            + COLUMN_CHANGE_PRICE               + " double not null, "
-            + COLUMN_CHANGE_PRICE_PERCENTAGE    + " double not null "
+            + COLUMN_LAST_PRICE                 + " double, "
+            + COLUMN_CHANGE_PRICE               + " double, "
+            + COLUMN_CHANGE_PRICE_PERCENTAGE    + " double "
             + ");";
 
     public static void onCreate(SQLiteDatabase database) {

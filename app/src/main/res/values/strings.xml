@@ -14,5 +14,6 @@
     <string name="stock_edit_change_price">Change Price</string>
     <string name="stock_edit_change_price_percentage">Change Price Percentage</string>
 
-    <string name="stock_edit_confirm">Confirm</string>
+    <string name="stock_update_confirm">Update</string>
+    <string name="stock_save_confirm">Save</string>
 </resources>

@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.ListFragment;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -164,7 +163,14 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
     // creates a new loader after the initLoader () call
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = {StockDbTable.COLUMN_ID, StockDbTable.COLUMN_TICKER, StockDbTable.COLUMN_DESCRIPTION};
+        String[] projection = {
+                StockDbTable.COLUMN_ID,
+                StockDbTable.COLUMN_TICKER,
+                StockDbTable.COLUMN_DESCRIPTION,
+                StockDbTable.COLUMN_LAST_PRICE,
+                StockDbTable.COLUMN_CHANGE_PRICE,
+                StockDbTable.COLUMN_CHANGE_PRICE_PERCENTAGE
+        };
         return new CursorLoader(getActivity(),
                 StockContentProvider.CONTENT_URI, projection, null, null, null);
     }
@@ -184,11 +190,22 @@ public class StockListFragment extends ListFragment implements LoaderManager.Loa
 
         // Fields from the database (projection)
         // Must include the _id column for the adapter to work
-        String[] from = new String[]{StockDbTable.COLUMN_TICKER, StockDbTable.COLUMN_DESCRIPTION};
+        String[] from = new String[]{
+                StockDbTable.COLUMN_TICKER,
+                StockDbTable.COLUMN_DESCRIPTION,
+                StockDbTable.COLUMN_LAST_PRICE,
+                StockDbTable.COLUMN_CHANGE_PRICE,
+                StockDbTable.COLUMN_CHANGE_PRICE_PERCENTAGE
+        };
         //String[] from = new String[]{StockDbTable.COLUMN_TICKER};
         // Fields on the UI to which we map
         //int[] to = new int[] { R.id.name };
-        int[] to = new int[]{R.id.name, R.id.price};
+        int[] to = new int[]{
+                R.id.name,
+                R.id.last_price,
+                R.id.change_price,
+                R.id.change_price_percentage
+        };
 
         getLoaderManager().initLoader(0, null, this);
         adapter = new SimpleCursorAdapter(getActivity(), R.layout.list_item, null, from, to, 0);

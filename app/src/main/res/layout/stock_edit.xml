@@ -14,63 +14,68 @@
     <LinearLayout
         android:id="@+id/LinearLayout01"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
 
         <EditText
             android:id="@+id/stock_edit_ticker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:hint="@string/stock_edit_ticker"
             android:imeOptions="actionNext" >
         </EditText>
+
+        <EditText
+            android:id="@+id/stock_edit_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:hint="@string/stock_edit_description"
+            android:imeOptions="actionNext" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/stock_edit_last_price"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:hint="@string/stock_edit_last_price"
+            android:imeOptions="actionNext" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/stock_edit_change_price"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:hint="@string/stock_edit_change_price"
+            android:imeOptions="actionNext" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/stock_edit_change_price_percentage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:hint="@string/stock_edit_change_price_percentage"
+            android:imeOptions="actionNext" >
+        </EditText>
+
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/stock_edit_description"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="top"
-        android:hint="@string/stock_edit_description"
-        android:imeOptions="actionNext" >
-    </EditText>
-
-    <EditText
-        android:id="@+id/stock_edit_last_price"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="top"
-        android:hint="@string/stock_edit_last_price"
-        android:imeOptions="actionNext" >
-    </EditText>
-
-    <EditText
-        android:id="@+id/stock_edit_change_price"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="top"
-        android:hint="@string/stock_edit_change_price"
-        android:imeOptions="actionNext" >
-    </EditText>
-
-    <EditText
-        android:id="@+id/stock_edit_change_price_percentage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="top"
-        android:hint="@string/stock_edit_change_price_percentage"
-        android:imeOptions="actionNext" >
-    </EditText>
-
     <Button
-        android:id="@+id/stock_edit_button"
+        android:id="@+id/stock_update_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/stock_edit_confirm" >
+        android:text="@string/stock_update_confirm" >
+    </Button>
+
+    <Button
+        android:id="@+id/stock_save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stock_save_confirm" >
     </Button>
 
 </LinearLayout> 

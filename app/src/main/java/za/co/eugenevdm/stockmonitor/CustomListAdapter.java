@@ -50,22 +50,22 @@ public class CustomListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.list_item, null);
 
         TextView name = (TextView) convertView.findViewById(R.id.name);
-        TextView price = (TextView) convertView.findViewById(R.id.price);
-        TextView cp = (TextView) convertView.findViewById(R.id.cp);
+        TextView price = (TextView) convertView.findViewById(R.id.last_price);
+        TextView cp = (TextView) convertView.findViewById(R.id.change_price);
 
         // Get row data
         Stock s = stockItems.get(position);
 
         name.setText(s.getName());
-        price.setText(s.getPrice());
-        if (s.getCp() < 0) {
+        price.setText(s.getLastPrice());
+        if (s.getChangePrice() < 0) {
             cp.setTextColor(Color.RED);
-        } else if (s.getCp() > 0) {
+        } else if (s.getChangePrice() > 0) {
             cp.setTextColor(Color.GREEN);
         } else {
             cp.setTextColor(Color.WHITE);
         }
-        cp.setText(s.getCp() + "%");
+        cp.setText(s.getChangePrice() + "%");
         return convertView;
     }
 
