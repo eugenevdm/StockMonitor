@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 /**
  * Created by eugene on 2015/06/11.
- *
+ * <p/>
  * TODO Possible optimisation
  * http://stackoverflow.com/questions/5183813/android-issue-with-newview-and-bindview-in-custom-simplecursoradapter
  */
@@ -43,18 +43,27 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
         TextView textViewTicker = (TextView) v.findViewById(R.id.ticker);
         textViewTicker.setText(ticker);
 
-        TextView textViewChangePrice = (TextView) v.findViewById(R.id.change_price);
-        textViewChangePrice.setText(Float.toString(changePrice));
+        if (changePrice != 0) {
 
-        TextView textViewChangePricePercentage = (TextView) v.findViewById(R.id.change_price_percentage);
-        textViewChangePricePercentage.setText("(" + Float.toString(changePricePercentage) + "%)");
+            TextView textViewChangePrice = (TextView) v.findViewById(R.id.change_price);
+            textViewChangePrice.setText(Float.toString(changePrice));
 
-        if (changePrice > 0 ) {
-            textViewChangePricePercentage.setTextColor(Color.GREEN);
-        } else if (changePrice < 0) {
-            textViewChangePricePercentage.setTextColor(Color.RED);
+            TextView textViewChangePricePercentage = (TextView) v.findViewById(R.id.change_price_percentage);
+            textViewChangePricePercentage.setText("(" + Float.toString(changePricePercentage) + "%)");
+
+            if (changePrice > 0) {
+                textViewChangePricePercentage.setTextColor(Color.GREEN);
+            } else if (changePrice < 0) {
+                textViewChangePricePercentage.setTextColor(Color.RED);
+            } else {
+                textViewChangePricePercentage.setTextColor(Color.WHITE);
+            }
         } else {
-            textViewChangePricePercentage.setTextColor(Color.WHITE);
+            TextView textViewChangePrice = (TextView) v.findViewById(R.id.change_price);
+            textViewChangePrice.setText("");
+
+            TextView textViewChangePricePercentage = (TextView) v.findViewById(R.id.change_price_percentage);
+            textViewChangePricePercentage.setText("");
         }
 
         return v;
@@ -84,18 +93,28 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
         TextView textViewTicker = (TextView) v.findViewById(R.id.ticker);
         textViewTicker.setText(ticker);
 
-        TextView textViewChangePrice = (TextView) v.findViewById(R.id.change_price);
-        textViewChangePrice.setText(Float.toString(changePrice));
+        if (changePrice != 0) {
 
-        TextView textViewChangePricePercentage = (TextView) v.findViewById(R.id.change_price_percentage);
-        textViewChangePricePercentage.setText("(" + Float.toString(changePricePercentage) + "%)");
+            TextView textViewChangePrice = (TextView) v.findViewById(R.id.change_price);
+            // TODO Convert changePrice to Rands and add currency symbol
+            textViewChangePrice.setText(Float.toString(changePrice));
 
-        if (changePrice > 0 ) {
-            textViewChangePricePercentage.setTextColor(Color.GREEN);
-        } else if (changePrice < 0) {
-            textViewChangePricePercentage.setTextColor(Color.RED);
+            TextView textViewChangePricePercentage = (TextView) v.findViewById(R.id.change_price_percentage);
+            textViewChangePricePercentage.setText("(" + Float.toString(changePricePercentage) + "%)");
+
+            if (changePrice > 0) {
+                textViewChangePricePercentage.setTextColor(Color.GREEN);
+            } else if (changePrice < 0) {
+                textViewChangePricePercentage.setTextColor(Color.RED);
+            } else {
+                textViewChangePricePercentage.setTextColor(Color.WHITE);
+            }
         } else {
-            textViewChangePricePercentage.setTextColor(Color.WHITE);
+            TextView textViewChangePrice = (TextView) v.findViewById(R.id.change_price);
+            textViewChangePrice.setText("");
+
+            TextView textViewChangePricePercentage = (TextView) v.findViewById(R.id.change_price_percentage);
+            textViewChangePricePercentage.setText("");
         }
 
     }

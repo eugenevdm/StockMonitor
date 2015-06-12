@@ -12,9 +12,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import za.co.eugenevdm.stockmonitor.engine.Utils;
@@ -30,8 +32,8 @@ public class Stock implements Serializable {
     private String currencySymbol;  // Currency symbol, derived
     private String pe;              // PE
     private String mc;              // Market cap
-    private Float cp;               // Change price percentage (from last read)
-    private Float c;                // Change price
+    private String cp;               // Change price percentage (from last read)
+    private String c;                // Change price
     public static List<StockItem> ITEMS = new ArrayList<StockItem>();
 
     private static final String TAG = "sm_StockObject";
@@ -65,6 +67,10 @@ public class Stock implements Serializable {
             this.currencySymbol = "R ";
         } else if (e.equals("NASDAQ") || e.equals("NYSE")) {
             this.currencySymbol = "$";
+        } else if (e.equals("LON")) {
+            this.currencySymbol = "£";
+        } else if (e.equals("TYO")) {
+            this.currencySymbol = "¥";
         }
     }
 
@@ -84,11 +90,11 @@ public class Stock implements Serializable {
         this.mc = mc;
     }
 
-    public void setChangePrice(Float c) {
+    public void setChangePrice(String c) {
         this.c = c;
     }
 
-    public void setChangePricePercentage(Float cp) {
+    public void setChangePricePercentage(String cp) {
         this.cp = cp;
     }
 
@@ -128,11 +134,11 @@ public class Stock implements Serializable {
         return mc;
     }
 
-    Float getChangePrice() {
+    String getChangePrice() {
         return cp;
     }
 
-    Float getChangePricePercentage() {
+    String getChangePricePercentage() {
         return c;
     }
 
@@ -145,8 +151,8 @@ public class Stock implements Serializable {
         public String price;
         public String pe;
         public String market_cap;
-        public float cp;
-        public float c;
+        public String cp;
+        public String c;
 
         public StockItem(String id,
                          String name,
@@ -155,8 +161,8 @@ public class Stock implements Serializable {
                          String price,
                          String pe,
                          String market_cap,
-                         Float cp,
-                         Float c
+                         String cp,
+                         String c
                          ) {
             this.id                 = id;
             this.name               = name;
@@ -180,8 +186,9 @@ public class Stock implements Serializable {
         l = l.replace(",", "");
         float f = Float.parseFloat(l);
         f = f / 100;
-        l = Float.toString(f);
-        return l;
+        return Float.toString(f);
+        //return String.format(Locale.ENGLISH, "%2.f", f);
+        //return String.format("%2.f", f);
     }
 
     void getJsonStocksFromGoogle(Context ctx, final List<Stock> stocksList, final MySimpleCursorAdapter adapter) {

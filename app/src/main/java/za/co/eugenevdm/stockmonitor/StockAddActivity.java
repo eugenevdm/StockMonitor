@@ -77,12 +77,7 @@ public class StockAddActivity extends Activity {
                 if (TextUtils.isEmpty(mTickerText.getText().toString())) {
                     makeToast();
                 } else {
-                    // Get essential stock data online asynchronously
                     retrieveStockInfo(mTickerText.getText().toString());
-                    // Normally the activity would end here, but because it's async it's ended
-                    // in retrieveStockInfo onResponse
-                    //setResult(RESULT_OK);
-                    //finish();
                 }
             }
         });
@@ -124,10 +119,7 @@ public class StockAddActivity extends Activity {
                     String ex = serverStock.getExchange();
                     String p = serverStock.getLastPrice();
                     if (ex.equals("JSE")) {
-                        p = p.replace(",", "");
-                        float f = Float.parseFloat(p);
-                        f = f / 100;
-                        p = Float.toString(f);
+                        p = Stock.convertToRands(p);
                         serverStock.setLastPrice(p);
                     }
                     Stock s = new Stock();
